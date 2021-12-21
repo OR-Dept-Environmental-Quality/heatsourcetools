@@ -16,7 +16,7 @@ obs_file <- "ObservedData.csv"
 out_dir <-"F:/WorkSpace/Mid_Coast/Heat_Source/Yachats/sim_01_CCC/s1_2/outputs/"
 sim_dir <- "F:/WorkSpace/Mid_Coast/Heat_Source/Yachats/sim_01_CCC/s1_2/outputs/"
 obs_dir <- "F:/WorkSpace/Mid_Coast/Heat_Source/Yachats/sim_01_CCC/"
-fun_dir <- "E:/GitHub/Rscripts/heatsource"
+fun_dir <- "E:/GitHub/heatsourcetools/script_snapshot"
 
 source(paste0(fun_dir,"/","R_functions_hs_read_and_format.R"))
 
@@ -41,7 +41,7 @@ obs$hour <-as.integer(format(obs$Datetime, "%H"))
 #obs$siteName <-NULL
 
 # data frame of obkm and simkm with site name
-km <- obs2simkm(obs_dir=obs_dir, file_name="ObservedData.csv", 
+km <- obs2simkm(obs_dir=obs_dir, file_name=obs_file, 
                 constituentCode="STEMPH",
                 simkm=as.numeric(unique(sim.hour$Stream_km)))
 
@@ -110,10 +110,10 @@ for(i in 1:length(obs.km)) {
 
   df.i <- rbind(sim.i,obs.i)
   
-  obs.wide$hourly_me[i] <- round(me(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$hourly_mae[i] <- round(mae(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$hourly_rmse[i] <- round(rmse(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$hourly_ns[i] <- round(mNSE(df.stats$value.x, df.stats$value.y, j=2, na.rm = TRUE), digits = 2)
+  obs.wide$hourly_me[i] <- round(hydroGOF::me(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$hourly_mae[i] <- round(hydroGOF::mae(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$hourly_rmse[i] <- round(hydroGOF::rmse(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$hourly_ns[i] <- round(hydroGOF::mNSE(df.stats$value.x, df.stats$value.y, j=2, na.rm = TRUE), digits = 2)
   obs.wide$hourly_n[i] <- nrow(na.omit(df.stats[,c("value.x","value.y")]))
 
   p1 <- ggplot(data=df.i, aes(x=Datetime, y=value, size=sim, 
@@ -158,10 +158,10 @@ for(i in 1:length(obs.km)) {
 
   df.i <- rbind(obs.i,sim.i)
 
-  obs.wide$sdadm_me[i] <- round(me(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$sdadm_mae[i] <- round(mae(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$sdadm_rmse[i] <- round(rmse(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
-  obs.wide$sdadm_ns[i] <- round(mNSE(df.stats$value.x, df.stats$value.y, j=2, na.rm = TRUE), digits = 2)
+  obs.wide$sdadm_me[i] <- round(hydroGOF::me(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$sdadm_mae[i] <- round(hydroGOF::mae(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$sdadm_rmse[i] <- round(hydroGOF::rmse(df.stats$value.x, df.stats$value.y,na.rm = TRUE), digits = 2)
+  obs.wide$sdadm_ns[i] <- round(hydroGOF::mNSE(df.stats$value.x, df.stats$value.y, j=2, na.rm = TRUE), digits = 2)
   obs.wide$sdadm_n[i] <- nrow(na.omit(df.stats[,c("value.x","value.y")]))
   
   p1 <- ggplot(data=df.i, aes(x=Date, y=value, colour=sim, size=sim, linetype=sim)) +
@@ -197,10 +197,10 @@ obs.wide <- rbind(obs.wide,new.row)
 
 i <- nrow(obs.wide)
 
-obs.wide$hourly_me[i] <- round(me(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
-obs.wide$hourly_mae[i] <- round(mae(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
-obs.wide$hourly_rmse[i] <- round(rmse(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
-obs.wide$hourly_ns[i] <- round(mNSE(df.hour$value.x, df.hour$value.y, j=2, na.rm = TRUE), digits = 2)
+obs.wide$hourly_me[i] <- round(hydroGOF::me(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
+obs.wide$hourly_mae[i] <- round(hydroGOF::mae(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
+obs.wide$hourly_rmse[i] <- round(hydroGOF::rmse(df.hour$value.x, df.hour$value.y,na.rm = TRUE), digits = 2)
+obs.wide$hourly_ns[i] <- round(hydroGOF::mNSE(df.hour$value.x, df.hour$value.y, j=2, na.rm = TRUE), digits = 2)
 obs.wide$hourly_n[i] <- nrow(na.omit(df.hour[,c("value.x","value.y")]))
 
 obs.wide$sdadm_me[i] <- round(me(df.7dadm$value.x, df.7dadm$value.y,na.rm = TRUE), digits = 2)

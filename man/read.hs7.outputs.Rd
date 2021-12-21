@@ -7,10 +7,10 @@
 read.hs7.outputs(output_dir, file_name, sheet_name)
 }
 \arguments{
-\item{output_dir}{The path to directory where the Heat Source 7 .xlsx model is located.}
+\item{output_dir}{The path to directory where the Heat Source 7 .xlsm model is located.}
 
-\item{file_name}{The file name of the .xlsx Heat Source 7 model.
-The ".xlsx" extension should be included in the file name.}
+\item{file_name}{The file name of the .xlsm Heat Source 7 model.
+The ".xlsm" extension should be included in the file name.}
 
 \item{sheet_name}{The name of the output worksheet to read.}
 
@@ -20,8 +20,8 @@ The ".xlsx" extension should be included in the file name.}
 dataframe
 }
 \description{
-Read hourly xlsx output from Heat Source version 7.
-Heat Source excel workbook needs to be saved as .xlsx. Workbooks in .xls do not seem to work.
+Read hourly xlsm output from Heat Source version 7.
+Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not work.
 }
 \keyword{7}
 \keyword{Heat}
