@@ -7,16 +7,16 @@
 #'
 #' @keywords Heat Source version 8
 #' @export
-#' @return dataframe
+#' @return data frame
 #'
 
 read.hs8.outputs <- function(output_dir, file_name) {
 
   # remove the extension in case it was added
-  base_name <- gsub("\\..*","",file_name)
+  base_name <- gsub("\\..*","", file_name)
 
-  hs8.data <- read.table(paste0(output_dir, base_name,".txt"),
-                         sep="",dec=".",skip=2,header=TRUE, ...,
+  hs8.data <- read.table(file.path(output_dir, paste0(base_name,".txt")),
+                         sep = "", dec = ".", skip = 2, header = TRUE,
                          stringsAsFactors = FALSE, na.strings = "NA")
   return(hs8.data)
 

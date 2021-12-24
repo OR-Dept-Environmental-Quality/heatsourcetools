@@ -9,7 +9,7 @@ read.hs9.outputs(output_dir, file_name)
 \arguments{
 \item{output_dir}{The path to directory where the Heat Source 9 output files are located.}
 
-\item{file_name}{The file name of the Heat Source 9 output. Thee file is a csv text file.}
+\item{file_name}{The file name of the Heat Source 9 output. The file is a csv text file.}
 }
 \value{
 dataframe
@@ -17,7 +17,7 @@ dataframe
 \description{
 Read output from Heat Source version 9.
 }
-\keyword{8}
+\keyword{9}
 \keyword{Heat}
 \keyword{Source}
 \keyword{version}

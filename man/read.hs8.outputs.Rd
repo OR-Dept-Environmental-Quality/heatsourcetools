@@ -12,7 +12,7 @@ read.hs8.outputs(output_dir, file_name)
 \item{file_name}{The file name of the Heat Source 8 output. The file is a .txt text file.}
 }
 \value{
-dataframe
+data frame
 }
 \description{
 Read hourly output from Heat Source version 8.
