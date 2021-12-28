@@ -6,13 +6,14 @@
 #' constituent column.
 #'
 #' @param df The input data frame. df must have the following columns names:
-#' \itemize{
-#'   \item datetime (with datetime as POSIXlt),
-#'   \item sim (with simulation name in character format),
-#'   \item stream_km (as numeric),
-#'   \item value (numeric hourly stream temperature)
+#'        \itemize{
+#'           \item datetime (with datetime as POSIXlt),
+#'           \item sim (with simulation name in character format),
+#'           \item stream_km (as numeric),
+#'           \item value (numeric hourly stream temperature)
+#'           }
 #'
-#'   These can be generated using the \code{\link{format_outputs}} function.
+#'       These can be generated using the \code{\link{format_outputs}} function.
 #' @param datetime_col datetime column name. Default is 'datetime'.
 #' @param sim_col Simulation column name. Default is 'sim'.
 #' @param stream_km_col Stream km column name. Default is 'stream_km'.

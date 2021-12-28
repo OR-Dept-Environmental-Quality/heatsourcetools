@@ -13,6 +13,16 @@ calc_7dadm(
 )
 }
 \arguments{
+\item{df}{The input data frame. df must have the following columns names:
+       \itemize{
+          \item datetime (with datetime as POSIXlt),
+          \item sim (with simulation name in character format),
+          \item stream_km (as numeric),
+          \item value (numeric hourly stream temperature)
+          }
+
+      These can be generated using the \code{\link{format_outputs}} function.}
+
 \item{datetime_col}{datetime column name. Default is 'datetime'.}
 
 \item{sim_col}{Simulation column name. Default is 'sim'.}
