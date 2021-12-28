@@ -17,6 +17,40 @@ dataframe
 \description{
 Read output from Heat Source version 9.
 }
+\details{
+Data is returned in wide format with the stream km used as the column name for all values.
+An "X" is added as a prefix to every stream km value to have syntactically valid
+column names. The datetime is the first column and is formatted in excel
+numeric date format.
+
+This function reads the following output files:
+ \itemize{
+ \item Heat_SR1
+ \item Heat_SR2
+ \item Heat_SR3
+ \item Heat_SR3b
+ \item Heat_SR4
+ \item Heat_SR5
+ \item Shade
+ \item VTS
+ \item Hyd_DA
+ \item Hyd_DM
+ \item Hyd_Flow
+ \item Hyd_Hyp
+ \item Hyd_Vel
+ \item Hyd_WT
+ \item Heat_SR6
+ \item Heat_SR7
+ \item Heat_Cond
+ \item Heat_Long
+ \item Heat_Conv
+ \item Heat_Evap
+ \item Rate_Evap
+ \item Temp_H2O
+ \item Temp_Sed
+ \item Hyd_Disp
+}
+}
 \keyword{9}
 \keyword{Heat}
 \keyword{Source}
