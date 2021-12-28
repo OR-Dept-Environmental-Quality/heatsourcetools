@@ -15,7 +15,7 @@ obs2km(obskm, simkm)
 vector equal to the length of obskm
 }
 \description{
-Returns a vector of model kilometers (or distances) that are closest to the 
-observation kilometer or distance. If an observation id is equally distant 
+Returns a vector of model kilometers (or long distances) that are closest to the
+observation kilometer or distance. If an observation id is equally distant
 between two output kilometers the first one in the vector is used.
 }
