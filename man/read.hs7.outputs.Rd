@@ -13,8 +13,6 @@ read.hs7.outputs(output_dir, file_name, sheet_name)
 The ".xlsm" extension should be included in the file name.}
 
 \item{sheet_name}{The name of the output worksheet to read.}
-
-\item{...}{Other arguments passed on to readxl::read_excel().}
 }
 \value{
 dataframe
@@ -22,6 +20,27 @@ dataframe
 \description{
 Read hourly xlsm output from Heat Source version 7.
 Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not work.
+}
+\details{
+Data is returned in wide format with the stream km used as the column name for all values.
+An "X" is added as a prefix to every stream km value to have syntactically valid
+column names. The datetime is the first column and is formatted in excel
+numeric date format.
+
+This function reads the following output sheets:
+ \itemize{
+ \item Output - Solar Potential
+ \item Output - Solar Surface
+ \item Output - Solar Received
+ \item Output - Conduction
+ \item Output - Longwave
+ \item Output - Convection
+ \item Output - Evaporation
+ \item Output - Total Heat
+ \item Output - Evaporation Rate
+ \item Output - Temperature
+}
+To read heat source 7 effective shade outputs use \code{\link{read.hs7.shade}}.
 }
 \keyword{7}
 \keyword{Heat}

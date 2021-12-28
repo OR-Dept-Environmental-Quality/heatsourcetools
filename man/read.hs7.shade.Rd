@@ -13,8 +13,6 @@ read.hs7.shade(output_dir, file_name, sheet_name = "Chart-Shade")
 The ".xlsm" extension should be included in the file name.}
 
 \item{sheet_name}{The name of the output worksheet to read. Default is "Chart-Shade".}
-
-\item{...}{Other arguments passed on to readxl::read_excel().}
 }
 \value{
 data frame
@@ -22,6 +20,14 @@ data frame
 \description{
 Read xlsm effective shade output from Heat Source version 7.
 Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not seem to work.
+}
+\details{
+Data is returned in wide format with the stream km used as the column name for all values.
+An "X" is added as a prefix to every stream km value to have syntactically valid
+column names. The datetime is the first column and is formatted in excel
+numeric date format.
+
+This function is setup to read the "Chart-Shade" worksheet.
 }
 \keyword{7}
 \keyword{Heat}
