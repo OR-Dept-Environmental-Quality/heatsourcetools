@@ -1,7 +1,7 @@
 Package: heatsourcetools
 Type: Package
 Title: Heat Source Model Post Processing Tools
-Version: 0.1.0
+Version: 0.2.0
 Author: c(person(given = "Ryan",
            family = "Michie",
            role = c("aut", "cre"),
@@ -9,10 +9,12 @@ Author: c(person(given = "Ryan",
 Maintainer: Ryan Michie <Ryan.Michie@deq.oregon.gov>
 Description: R package to assist post processing of heat source models.
 Imports:
-    readxl (>= 1.2.0),
+    cellranger (>= 1.1.0),
     dplyr (>= 0.8.3),
-    tidyr (>= 1.0.0),
     lubridate (>= 1.7),
+    magrittr (>= 2.0.1),
+    readxl (>= 1.2.0),
+    tidyr (>= 1.0.0),
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
