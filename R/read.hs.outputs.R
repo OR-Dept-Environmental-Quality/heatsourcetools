@@ -1,6 +1,6 @@
 #' Read hourly Heat Source 6-8 outputs.
 #'
-#' Wrapper function to read hourly output from Heat Source version 6-9.
+#' Wrapper function to read output from Heat Source version 6-9.
 #' Heat Source 6-7 excel workbook needs to be saved as .xlsm. Workbooks in .xls
 #' do not work. This function calls \code{\link{format_outputs}} so the returned data frame
 #' has the following columns:
@@ -48,64 +48,64 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
   # Simulation name, constituent, statistic are strings
   # hours are added as ID variables.
   # sheet_name is only used for heat source 7
-
+  
   # Assign the correct read function based on model version
   if (as.integer(hs_ver) == 6) {
-
+    
     name <- sheet_name
-
+    
     if (grepl("shade", sheet_name, ignore.case = TRUE)) {
       # if shade we have to use a special function because the formatting of that sheet is different
-
+      
       data.wide <- heatsourcetools::read.hs6.shade(output_dir = output_dir,
                                                    file_name = file_name,
                                                    sheet_name = sheet_name)
-
+      
     } else {
-
-      data.wide <- heatsourcetools::read.hs7.temp(output_dir = output_dir,
+      
+      data.wide <- heatsourcetools::read.hs6.temp(output_dir = output_dir,
                                                   file_name = file_name,
                                                   sheet_name = sheet_name)
     }
   }
-
+  
   # Assign the correct read function based on model version
   if (as.integer(hs_ver) == 7) {
-
+    
     name <- sheet_name
-
+    
     if (grepl("shade", sheet_name, ignore.case = TRUE)) {
       # if shade we have to use a special function because the formatting of that sheet is different
-
+      
       data.wide <- heatsourcetools::read.hs7.shade(output_dir = output_dir,
                                                    file_name = file_name,
                                                    sheet_name = sheet_name)
-
+      
     } else {
-
+      
       data.wide <- heatsourcetools::read.hs7.outputs(output_dir = output_dir,
                                                      file_name = file_name,
                                                      sheet_name = sheet_name)
     }
   }
-
+  
   if (as.integer(hs_ver) == 8) {
     data.wide <- heatsourcetools::read.hs8.outputs(output_dir = output_dir,
                                                    file_name = file_name)
     name <- file_name
   }
-
+  
   if (as.integer(hs_ver) == 9) {
     data.wide <- heatsourcetools::read.hs9.outputs(output_dir = output_dir,
                                                    file_name = file_name)
     name <- file_name
   }
-
+  
   data.final <- heatsourcetools::format_outputs(df = data.wide, hs_ver = hs_ver,
                                                 name = name,
                                                 constituent_name = constituent_name,
                                                 sim_name = sim_name)
-
+  
   return(data.final)
-
+  
 }

@@ -36,7 +36,7 @@ using \code{\link{output_lookup}}.}
 data frame
 }
 \description{
-Wrapper function to read hourly output from Heat Source version 6-9.
+Wrapper function to read output from Heat Source version 6-9.
 Heat Source 6-7 excel workbook needs to be saved as .xlsm. Workbooks in .xls
 do not work. This function calls \code{\link{format_outputs}} so the returned data frame
 has the following columns:
