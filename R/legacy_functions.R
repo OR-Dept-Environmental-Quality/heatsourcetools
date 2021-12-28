@@ -43,7 +43,7 @@ read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   flux.raw$sim <- sim_name
 
   # Convert data from wide to long
-  flux.l <- melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("Stream_km"))
+  flux.l <- melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("stream_km"))
   colnames(flux.l) <- c("Datetime","sim", "constituent","Stream_km","value")
 
   flux.l$Stream_km <- as.numeric(gsub(pattern="X", replacement="",
@@ -158,15 +158,6 @@ read.solar.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
 
 }
 
-read.hs.inputs <- function (input_dir, file_name) {
-
-  data.raw <- read.table(paste0(input_dir,file_name),
-                         sep=",",dec=".",skip=0,header=TRUE,
-                         stringsAsFactors = FALSE, na.strings = "NA")
-
-  return(data.raw)
-}
-
 read.obs <- function(obs_dir, file_name) {
   # Read observation data
 
@@ -182,39 +173,6 @@ read.obs <- function(obs_dir, file_name) {
   obs.raw$Date <- format(obs.raw$Datetime, "%m/%d/%Y")
 
   return(obs.raw)
-
-}
-
-obs2simkm <- function(obs_dir, file_name, constituentCode, simkm) {
-  # Returns a dataframe matching the observation site to the closest model
-  # simulation kilometer.
-  # simkm is a vector of unique model simulation kilometers
-
-  # Read obs data
-  obs.raw <- read.obs(obs_dir=obs_dir, file_name=file_name)
-
-  # get the constituent
-  obs <- obs.raw[obs.raw$constituentCode == constituentCode,]
-
-  # just get the sites and stream_km
-  obs.wide <- obs %>%
-    dplyr::select(Stream_km, siteName) %>%
-    dplyr::distinct()
-
-  # get unique obs km
-  obs.km <- as.numeric(unique(obs$Stream_km))
-
-  sim.km <- numeric(0)
-
-  for (i in 1:length(obs.km)) {
-    # this makes a vector of the model km that is closest to the obs km
-    sim.km[i] <-simkm[which(abs(simkm-obs.km[i])==min(abs(simkm-obs.km[i])))[1]]
-  }
-
-  km <- cbind(data.frame(obs.km),data.frame(sim.km))
-  km <- merge(km,obs.wide,by.x="obs.km",by.y="Stream_km")
-
-  return(km)
 
 }
 
@@ -296,34 +254,6 @@ calc.summary <- function(df) {
   data.summary$statistic <- as.character(data.summary$statistic)
 
   return(data.summary)
-
-}
-
-read.hs7.shade <- function(output_dir, file_name, sim_name, constituent_name="Effective Shade",
-                           statistic_name="Percent", sheet_name="Chart-Shade") {
-  # Function to read effective shade output from heat source 7. Returns the data
-  # as a dataframe. Excel workbook needs to be saved as .xlsx. .xls do not seem to work.
-
-  library(readxl)
-  library(lubridate)
-
-  excel.data <- read_excel(path=paste0(output_dir,"/",file_name), sheet=sheet_name, skip=12, na = c("","N/A", " "),
-                           col_names=c("Stream_km", "Datetime", "value"),
-                           col_types =c("numeric","numeric","numeric"))
-
-  excel.data$constituent <- constituent_name
-  excel.data$statistic <- statistic_name
-  excel.data$sim <- sim_name
-
-  excel.data$Datetime <- as.numeric(excel.data$Datetime)
-
-  excel.data$Datetime <-round_date(as.POSIXct((excel.data$Datetime*60*60*24), origin="1899-12-30", tz="GMT"), unit = "minute")
-
-  excel.data$Date <- format(excel.data$Datetime,"%m/%d/%Y")
-
-  excel.data$hour <-as.integer(format(excel.data$Datetime, "%H"))
-
-  return(excel.data)
 
 }
 
