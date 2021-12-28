@@ -2,13 +2,13 @@
 % Please edit documentation in R/read.hs.outputs.R
 \name{read.hs.outputs}
 \alias{read.hs.outputs}
-\title{Read hourly Heat Source 7-8 outputs.}
+\title{Read hourly Heat Source 6-8 outputs.}
 \usage{
 read.hs.outputs(
   output_dir,
   file_name,
   hs_ver = 9,
-  sheet_name = NULL,
+  sheet_name = NA,
   constituent_name = NA,
   sim_name = NA
 )
@@ -18,13 +18,17 @@ read.hs.outputs(
 
 \item{file_name}{The file name of the .xlsm Heat Source 7 model or
 the name of the .txt or .csv output file for Heat Source version 8-9.
-For Heat Source 7, the ".xlsm" extension should be included in the file name.}
+For Heat Source 6-7, the ".xlsm" extension should be included in the file name.}
 
-\item{hs_ver}{The version of Heat Source. Input is a numeric value equal to 7, 8, or 9. Default is 9.}
+\item{hs_ver}{The version of Heat Source. Input is a numeric value equal to
+6, 7, 8, or 9. Default is 9.}
 
-\item{sheet_name}{The name of the Heat Source 7 output worksheet to read. String format. NULL for Heat Source 8-9. Default is NULL.}
+\item{sheet_name}{The name of the Heat Source 6-7 output worksheet to read.
+String format. NA for Heat Source 8-9. Default is NA.}
 
-\item{constituent_name}{The name of the output. String format. Default is NA. If NA, the function will attempt to look up the constituent using [lookup_output].}
+\item{constituent_name}{The name of the output. String format. Default is NA.
+If NA, the function will attempt to look up the constituent
+using \code{\link{lookup_output}}.}
 
 \item{sim_name}{The name of the model scenario. String format. Default is NA.}
 }
@@ -32,10 +36,31 @@ For Heat Source 7, the ".xlsm" extension should be included in the file name.}
 data frame
 }
 \description{
-Read hourly output from Heat Source version 7-9.
-Heat Source 7 excel workbook needs to be saved as .xlsm. Workbooks in .xls do not work.
+Wrapper function to read hourly output from Heat Source version 6-9.
+Heat Source 6-7 excel workbook needs to be saved as .xlsm. Workbooks in .xls
+do not work. This function calls \code{\link{format_outputs}} so the returned data frame
+has the following columns:
+ \itemize{
+ \item sim: Character value of the model scenario simulation name or other description.
+ \item constituent: Character value of the constituent (e.g. Temperature).
+ \item datetime: POSIXct datetime.
+ \item date: Character date in format "mm/dd/YYYY".
+ \item stream_km: numeric stream kilometer extracted from the model.
+ \item value: Constituent value.
+ }
 }
-\keyword{7}
+\details{
+This function converts heat source 6 long distance to stream km with the
+most downstream end = km 0.0
+
+If you just want the raw import use the specific 'read.hs...' function suited
+to the model version, e.g. read.hs9.outputs.
+}
+\seealso{
+\code{\link{read.hs6.temp}}, \code{\link{read.hs6.shade}},
+         \code{\link{read.hs7.outputs}}, \code{\link{read.hs7.shade}},
+         \code{\link{read.hs8.outputs}},
+         \code{\link{read.hs9.outputs}}
+}
 \keyword{Heat}
 \keyword{Source}
-\keyword{version}

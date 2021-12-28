@@ -1,17 +1,22 @@
-#' Return a vector of the con.
+#' Return a vector of the constituent and units.
 #'
-#' This function will return the name of the output constituent and units based on the input file name or sheet.
+#' This function will return the name of the output constituent and units based
+#' on the input file name or sheet. The input file name or sheet name should be
+#' the standard name used in heat source. If there is not a match NA will be
+#' returned.
 #'
-#' @param file_name The name of the .txt or .csv output file for Heat Source version 8-9.
-#' @param hs_ver The version of Heat Source. Input is a numeric value equal to 7, 8, or 9. Default is 9.
-#' @param sheet_name The name of the Heat Source 7 output worksheet. String format. NULL for Heat Source 8-9
-#' the name of the .txt or .csv output file for Heat Source version 8-9.
-#' For Heat Source 7, the ".xlsm" extension should be included in the file name.
+#' @param name The name of the .txt, or .csv output file for Heat Source
+#'        version 8-9; or excel sheet name for Heat Source 6-7. String format.
+#' @param hs_ver The version of Heat Source. Input is a numeric value
+#'        equal to 6, 7, 8, or 9. Default is 9.
 #' @export
 #' @return vector of values with the first element being the output constituent and the second the units.
 
-output_lookup <- function(file_name=NULL, hs_ver=9, sheet_name=NULL) {
-  
+output_lookup <- function(name=NA, hs_ver=9) {
+
+  hs6_list <- list("Effective Shade Data" = c("Effective Shade", "Percent"),
+                   "Long Temp Output" = c("Stream Temperature", "Celsius"))
+
   hs7_list <- list("Output - Solar Potential" = c("Solar Radiation Flux above Topographic Features", "watts/square meter"),
                    "Output - Solar Surface" = c("Solar Radiation Flux above the Stream", "watts/square meter"),
                    "Output - Solar Received" = c("Solar Radiation Flux Entering Stream", "watts/square meter"),
@@ -23,7 +28,7 @@ output_lookup <- function(file_name=NULL, hs_ver=9, sheet_name=NULL) {
                    "Output - Total Heat" = c("Total Flux", "watts/square meter"),
                    "Output - Evaporation Rate" = c("Evaporation Rate", "mm/hour"),
                    "Output - Temperature" = c("Stream Temperature", "Celsius"))
-  
+
   hs8_9_list <- list("Heat_SR1" = c("Solar Radiation Flux above Topographic Features", "watts/square meter"),
                      "Heat_SR2" = c("Solar Radiation Flux below Topographic Features", "watts/square meter"),
                      "Heat_SR3" = c("Solar Radiation Flux below Land Cover", "watts/square meter"),
@@ -49,34 +54,63 @@ output_lookup <- function(file_name=NULL, hs_ver=9, sheet_name=NULL) {
                      "Temp_H2O" = c("Stream Temperature", "Celsius"),
                      "Temp_Sed" = c("Sediment Temperature", "Celsius"),
                      "Hyd_Disp" = c("Hydraulic Dispersion", "square meters/second"))
-  
-  if(hs_ver==7) {
-    
-    if(!sheet_name %in% names(hs7_list)) {
-      stop(paste0("'",sheet_name, "' is not a valid Heat Source version 7 sheet name or a sheet that can be read by this function (e.g. 'Output - Hydraulics' or  'Output - Daily Heat Flux'"))
-      
-    } else {
-      
-      vals <- hs7_list[[sheet_name]]
-      
-      return(vals)
-      
-    }
-    
-  }
-  
 
-  if(hs_ver %in% c(8,9)) {
-  
+  if (hs_ver == 6) {
+
+    if (!name %in% names(hs6_list)) {
+      warning(paste0("'",name, "' is not a valid Heat Source version 6 sheet name
+                     or a sheet that can be read by this function. Returning NA"))
+
+      return(c(NA_character_, NA_character_))
+
+    } else {
+
+      vals <- hs7_list[[name]]
+
+      return(vals)
+
+    }
+
+  }
+
+
+
+  if (hs_ver == 7) {
+
+    if (!name %in% names(hs7_list)) {
+      warning(paste0("'",name, "' is not a valid Heat Source version 7 sheet name
+                  or a sheet that can be read by this function
+                  (e.g. 'Output - Hydraulics' or  'Output - Daily Heat Flux'.
+                  Returning NA"))
+
+      return(c(NA_character_, NA_character_))
+
+    } else {
+
+      vals <- hs7_list[[name]]
+
+      return(vals)
+
+    }
+
+  }
+
+
+  if (hs_ver %in% c(8, 9)) {
+
   # remove the extension in case it was added
-  base_name <- gsub("\\..*","", file_name)
-  
-  if(!base_name %in% names(hs8_9_list)) {
-    stop(paste0("'",file_name, "' is not a valid Heat Source version 8-9 output file name."))
+  base_name <- gsub("\\..*","", name)
+
+  if (!base_name %in% names(hs8_9_list)) {
+    warning(paste0("'", name, "' is not a valid Heat Source version 8-9 output
+                   file name. Returning NA"))
+
+    return(c(NA_character_, NA_character_))
+
   } else {
-    
+
     vals <- hs8_9_list[[base_name]]
-    
+
     return(vals)
     }
   }
