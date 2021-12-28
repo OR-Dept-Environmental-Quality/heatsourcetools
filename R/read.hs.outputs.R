@@ -29,7 +29,7 @@
 #'        String format. NA for Heat Source 8-9. Default is NA.
 #' @param constituent_name The name of the output. String format. Default is NA.
 #'        If NA, the function will attempt to look up the constituent
-#'        using \code{\link{lookup_output}}.
+#'        using \code{\link{output_lookup}}.
 #' @param sim_name The name of the model scenario. String format. Default is NA.
 #' @seealso \code{\link{read.hs6.temp}}, \code{\link{read.hs6.shade}},
 #'          \code{\link{read.hs7.outputs}}, \code{\link{read.hs7.shade}},
