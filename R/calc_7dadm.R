@@ -6,12 +6,13 @@
 #' constituent column.
 #'
 #' @param df The input data frame. df must have the following columns names:
-#'   datetime (with datetime as POSIXlt),
-#'   sim (with simulation name in character format),
-#'   stream_km (as numeric),
-#'   value (numeric hourly stream temperature)
+#' \itemize{
+#'   \item datetime (with datetime as POSIXlt),
+#'   \item sim (with simulation name in character format),
+#'   \item stream_km (as numeric),
+#'   \item value (numeric hourly stream temperature)
 #'
-#'   These can be generated using the [format_outputs] function.
+#'   These can be generated using the \code{\link{format_outputs}} function.
 #' @param datetime_col datetime column name. Default is 'datetime'.
 #' @param sim_col Simulation column name. Default is 'sim'.
 #' @param stream_km_col Stream km column name. Default is 'stream_km'.
@@ -20,9 +21,8 @@
 #' @return data frame with columns 'sim', 'datetime', 'date', 'stream_km', 'constituent', and 'value'.
 #'
 
-calc.7dadm <- function(df, datetime_col= "datetime", sim_col="sim",
-                       stream_km_col="stream_km", value_col="value",
-                       constituent="Temperature") {
+calc_7dadm <- function(df, datetime_col= "datetime", sim_col="sim",
+                       stream_km_col="stream_km", value_col="value") {
 
   # Returns a data frame of the daily maximum and 7DADM temperatures
   # by date in long format. Constituent and statistic names are added as an ID variable.
