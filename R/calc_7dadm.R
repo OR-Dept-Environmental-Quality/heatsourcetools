@@ -57,7 +57,7 @@ calc_7dadm <- function(df, datetime_col= "datetime", sim_col="sim",
                               df.long$constituent, ignore.case = FALSE, fixed = FALSE)
 
   df.long$constituent  <- gsub(pattern = "sdadm", replacement = "7DADM Temperature",
-                               df.long$constituent , ignore.case = FALSE,fixed = FALSE)
+                               df.long$constituent , ignore.case = FALSE, fixed = FALSE)
 
   df.final <- df.long[, c("sim", "constituent", "datetime", "date", "stream_km", "value")]
 
