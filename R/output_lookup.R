@@ -65,7 +65,7 @@ output_lookup <- function(name=NA, hs_ver=9) {
 
     } else {
 
-      vals <- hs7_list[[name]]
+      vals <- hs6_list[[name]]
 
       return(vals)
 

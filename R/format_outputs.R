@@ -32,18 +32,6 @@
 format_outputs <- function(df, hs_ver = 9, name = NA,
                            constituent_name = NA, sim_name = NA) {
 
-  if (hs_ver == 6) {
-    # convert long distance to stream km
-
-    # sort by long_distance ascending
-   df <- df[order(df$long_distance), ]
-
-   max_distance <- max(df$long_distance, na.rm = TRUE)
-
-   dfstream_km <- (max_distance - df$long_distance) / 1000
-
-  }
-
   if (is.na(constituent_name)) {
     lu_names <- heatsourcetools::output_lookup(name = name,
                                                hs_ver = hs_ver)
@@ -54,25 +42,34 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
   df$sim <- sim_name
 
   # Convert data from wide to long (tidyr)
-  data.l <- tidyr::pivot_longer(df, cols = starts_with(c("X", c(0:9))),
-                                names_to = "stream_km", values_to = "value")
+  df.long <- tidyr::pivot_longer(df, cols = starts_with(c("X", c(0:9))),
+                                 names_to = "stream_km", values_to = "value")
 
-  data.l$stream_km <- as.numeric(gsub(pattern = "X", replacement = "",
-                                      data.l$stream_km,
-                                      ignore.case = FALSE,
-                                      fixed = FALSE))
+  df.long$stream_km <- as.numeric(gsub(pattern = "X", replacement = "",
+                                       df.long$stream_km,
+                                       ignore.case = FALSE,
+                                       fixed = FALSE))
+
+  if (hs_ver == 6) {
+    # convert long distance to stream km
+
+    max_distance <- max(df.long$stream_km, na.rm = TRUE)
+
+    df.long$stream_km <- (max_distance - df.long$stream_km) / 1000
+
+  }
 
 
-  data.l$datetime <- lubridate::round_date(as.POSIXct((data.l$datetime*60*60*24),
-                                                      origin = "1899-12-30",
-                                                      tz = "GMT"),
-                                           unit = "minute")
+  df.long$datetime <- lubridate::round_date(as.POSIXct((df.long$datetime*60*60*24),
+                                                       origin = "1899-12-30",
+                                                       tz = "GMT"),
+                                            unit = "minute")
 
 
-  data.l$date <- format(data.l$datetime, "%m/%d/%Y")
+  df.long$date <- format(df.long$datetime, "%m/%d/%Y")
 
-  data.l <- data.l[, c("sim", "constituent", "datetime", "date", "stream_km", "value")]
+  df.long <- df.long[, c("sim", "constituent", "datetime", "date", "stream_km", "value")]
 
-  return(data.l)
+  return(df.long)
 
 }
