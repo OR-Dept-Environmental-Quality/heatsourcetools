@@ -45,7 +45,7 @@ read.hs6.temp <- function(output_dir, file_name,
                                                     tz = "UTC"))) %>%
     dplyr::pull(model_date)
 
-  datetimes <- as.numeric(paste0(model_date + c(0:23/24)))
+  datetimes <- model_date + c(0:23/24)
 
   col_names <- c("long_distance", "sim_time", paste0("X",0:23))
   excel.data <- readxl::read_excel(path = file.path(output_dir, file_name),

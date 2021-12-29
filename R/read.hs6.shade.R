@@ -40,8 +40,9 @@ read.hs6.shade <- function(output_dir, file_name, sheet_name = "Effective Shade 
                                    col_types = c("date"),
                                    col_names = "model_date",
                                    na = c("","N/A", " ")) %>%
-    dplyr::mutate(model_date = lubridate::round_date(model_date + lubridate::hours(23),
-                                                     unit = "minute")) %>%
+    dplyr::mutate(model_date = as.numeric(as.Date(model_date) -
+                                            as.Date(0, origin = "1899-12-30",
+                                                    tz = "UTC"))) %>%
     dplyr::pull(model_date)
 
   excel.data <- readxl::read_excel(path = file.path(output_dir, file_name),
@@ -57,7 +58,7 @@ read.hs6.shade <- function(output_dir, file_name, sheet_name = "Effective Shade 
   # sort by long_distance ascending
   excel.data  <- excel.data[order(excel.data$long_distance), ]
 
-  excel.data$datetime <- model_date
+  excel.data$datetime <- model_date + (23/24)
 
   excel.data <- tidyr::pivot_wider(excel.data, values_from = value,
                                    names_from = long_distance, names_prefix = "X") %>%
