@@ -14,9 +14,9 @@ read.hs.outputs(
 )
 }
 \arguments{
-\item{output_dir}{The path to directory where the Heat Source 7 .xlsm model is located.}
+\item{output_dir}{The path to directory where the output Heat Source file is located.}
 
-\item{file_name}{The file name of the .xlsm Heat Source 7 model or
+\item{file_name}{The file name of the .xlsm for Heat Source version 6-7 or
 the name of the .txt or .csv output file for Heat Source version 8-9.
 For Heat Source 6-7, the ".xlsm" extension should be included in the file name.}
 
