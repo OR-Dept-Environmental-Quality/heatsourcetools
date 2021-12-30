@@ -25,7 +25,6 @@
 #'        If NA, the function will attempt to look up the constituent using [lookup_output]
 #'        and the value in 'name'.
 #' @param sim_name The name of the model scenario. String format. Optional. Default is NA.
-#' @keywords
 #' @export
 #' @return data frame
 
