@@ -16,7 +16,7 @@ equal to 6, 7, 8, or 9. Default is 9.}
 version 8-9; or excel sheet name for Heat Source 6-7. String format.}
 
 \item{constituent_name}{The name of the output. String format. Optional. Default is NA.
-If NA, the function will attempt to look up the constituent using [lookup_output]
+If NA, the function will attempt to look up the constituent using \code{\link{output_lookup}}
 and the value in 'name'.}
 
 \item{sim_name}{The name of the model scenario. String format. Optional. Default is NA.}
