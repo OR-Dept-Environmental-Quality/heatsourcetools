@@ -24,9 +24,13 @@ For Heat Source 6-7, the ".xlsm" extension should be included in the file name.}
 6, 7, 8, or 9. Default is 9.}
 
 \item{sheet_name}{The name of the Heat Source 6-7 output worksheet to read.
-String format. NA for Heat Source 8-9. Default is NA.}
+String format. NA for Heat Source 8-9. Default is NA. The
+\code{constituent_name} must be identified for Heat Source 6-7 models
+when reading the 'Main Menu' or 'Output - Hydraulics' worksheets
+See details for more information.}
 
-\item{constituent_name}{The name of the output. String format. Default is NA.
+\item{constituent_name}{The name of the output. String format. Required for
+Heat Source 6 when reading from the (see details). Default is NA.
 If NA, the function will attempt to look up the constituent
 using \code{\link{output_lookup}}.}
 
@@ -38,27 +42,41 @@ data frame
 \description{
 Wrapper function to read output from Heat Source version 6-9.
 Heat Source 6-7 excel workbook needs to be saved as .xlsm. Workbooks in .xls
-do not work. This function calls \code{\link{format_outputs}} so the returned data frame
-has the following columns:
+do not work. This function calls \code{\link{format_outputs}} so the returned
+data frame has the following columns:
  \itemize{
  \item sim: Character value of the model scenario simulation name or other description.
  \item constituent: Character value of the constituent (e.g. Temperature).
  \item datetime: POSIXct datetime.
  \item date: Character date in format "mm/dd/YYYY".
- \item stream_km: numeric stream kilometer extracted from the model.
+ \item model_km: numeric stream kilometer extracted from the model.
  \item value: Constituent value.
  }
 }
 \details{
+If you just want the raw import use the specific 'read.hs...' function suited
+to the model version, e.g. read.hs9.outputs.
+
 This function converts heat source 6 long distance to stream km with the
 most downstream end = km 0.0
 
-If you just want the raw import use the specific 'read.hs...' function suited
-to the model version, e.g. read.hs9.outputs.
+For Heat Source 6-7 models it is necessary to identify the
+\code{constituent_name} when reading hydraulic outputs
+(e.g. \code{sheet_name = 'Output - Hydraulics'} or
+\code{sheet_name = 'Main Menu'} for hs7 and hs6 models respectively). This is
+necessary because these sheets have multiple outputs and the
+constituent name helps the function identify which output to read. In this
+situation use one of the following for \code{constituent_name}:
+\itemize{
+\item 'Flow Rate'
+\item 'Flow Velocity'
+}
 }
 \seealso{
 \code{\link{read.hs6.temp}}, \code{\link{read.hs6.shade}},
+         \code{\link{read.hs6.flow}}, \code{\link{read.hs6.velocity}},
          \code{\link{read.hs7.outputs}}, \code{\link{read.hs7.shade}},
+         \code{\link{read.hs7.flow}}, \code{\link{read.hs7.velocity}},
          \code{\link{read.hs8.outputs}},
          \code{\link{read.hs9.outputs}}
 }
