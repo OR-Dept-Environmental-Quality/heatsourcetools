@@ -8,6 +8,7 @@
 #' column names. The datetime is the first column and is formatted in excel
 #' numeric date format.
 #'
+#' This function is setup to read the "Effective Shade Data" worksheet.
 #'
 #' @param output_dir The path to the directory where the Heat Source 6 .xlsm model is located.
 #' @param file_name The file name of the .xlsm Heat Source 6 model.
@@ -20,9 +21,6 @@
 #'
 
 read.hs6.shade <- function(output_dir, file_name, sheet_name = "Effective Shade Data") {
-
-  #output_dir <- "/Users/rmichie/Desktop/heatsource/"
-  #file_name <- "hs6_Johnson_Creek.xlsm"
 
   max_distance <- readxl::read_excel(path = file.path(output_dir, file_name),
                                      sheet = "Main Menu",

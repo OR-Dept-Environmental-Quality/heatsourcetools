@@ -26,6 +26,8 @@ Data is returned in wide format with the long distance used as the column name f
 An "X" is added as a prefix to every long distance value to have syntactically valid
 column names. The datetime is the first column and is formatted in excel
 numeric date format.
+
+This function is setup to read the "Long Temp Output" worksheet.
 }
 \keyword{6}
 \keyword{Heat}
