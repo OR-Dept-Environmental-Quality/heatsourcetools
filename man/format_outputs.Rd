@@ -35,7 +35,7 @@ Output column names include:
  \item constituent: Character value of the constituent (e.g. Temperature).
  \item datetime: POSIXct datetime.
  \item date: Character date in format "mm/dd/YYYY".
- \item stream_km: numeric stream kilometer extracted from the model.
+ \item model_km: numeric stream kilometer extracted from the model.
  \item value: Constituent value.
  }
 

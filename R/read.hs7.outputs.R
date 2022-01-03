@@ -1,12 +1,13 @@
 #' Read Heat Source 7 outputs.
 #'
 #' Read hourly xlsm output from Heat Source version 7.
-#' Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not work.
+#' Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do
+#' not work.
 #'
-#' Data is returned in wide format with the stream km used as the column name for all values.
-#' An "X" is added as a prefix to every stream km value to have syntactically valid
-#' column names. The datetime is the first column and is formatted in excel
-#' numeric date format.
+#' Data is returned in wide format with the model stream km used as the column
+#' name for all values. An "X" is added as a prefix to every stream km value to
+#' have syntactically valid column names. The datetime is the first column and
+#' is formatted in excel numeric date format.
 #'
 #' This function reads the following output sheets:
 #'  \itemize{
@@ -35,17 +36,13 @@
 
 read.hs7.outputs <- function(output_dir, file_name, sheet_name) {
 
-  #output_dir <- "/Users/rmichie/Desktop/heatsource/Jenny_Creek/hs7"
-  #file_name <- "HS7.Jenny.Crk.CCCdx200.xlsm"
-  #sheet_name <- "Output - Temperature"
-
   excel.data <- readxl::read_excel(path = file.path(output_dir, file_name),
                                    sheet = sheet_name, skip = 14,
                                    na = c("","N/A", " "))
 
-  stream_kms <- excel.data[[4]]
+  model_kms <- excel.data[[4]]
   hs7.data <- data.frame(t(excel.data[,c(5:ncol(excel.data))]))
-  colnames(hs7.data) <- paste0("X", stream_kms)
+  colnames(hs7.data) <- paste0("X", model_kms)
 
   hs7.data$datetime <- as.numeric(rownames(hs7.data))
   rownames(hs7.data) <- NULL

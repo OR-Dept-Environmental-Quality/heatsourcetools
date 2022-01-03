@@ -9,7 +9,7 @@
 #'  \item constituent: Character value of the constituent (e.g. Temperature).
 #'  \item datetime: POSIXct datetime.
 #'  \item date: Character date in format "mm/dd/YYYY".
-#'  \item stream_km: numeric stream kilometer extracted from the model.
+#'  \item model_km: numeric stream kilometer extracted from the model.
 #'  \item value: Constituent value.
 #'  }
 #'
@@ -42,19 +42,19 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
 
   # Convert data from wide to long (tidyr)
   df.long <- tidyr::pivot_longer(df, cols = starts_with(c("X", c(0:9))),
-                                 names_to = "stream_km", values_to = "value")
+                                 names_to = "model_km", values_to = "value")
 
-  df.long$stream_km <- as.numeric(gsub(pattern = "X", replacement = "",
-                                       df.long$stream_km,
+  df.long$model_km <- as.numeric(gsub(pattern = "X", replacement = "",
+                                       df.long$model_km,
                                        ignore.case = FALSE,
                                        fixed = FALSE))
 
   if (hs_ver == 6) {
     # convert long distance to stream km
 
-    max_distance <- max(df.long$stream_km, na.rm = TRUE)
+    max_distance <- max(df.long$model_km, na.rm = TRUE)
 
-    df.long$stream_km <- (max_distance - df.long$stream_km) / 1000
+    df.long$model_km <- (max_distance - df.long$model_km) / 1000
 
   }
 
@@ -67,7 +67,7 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
 
   df.long$date <- format(df.long$datetime, "%m/%d/%Y")
 
-  df.long <- df.long[, c("sim", "constituent", "datetime", "date", "stream_km", "value")]
+  df.long <- df.long[, c("sim", "constituent", "datetime", "date", "model_km", "value")]
 
   return(df.long)
 

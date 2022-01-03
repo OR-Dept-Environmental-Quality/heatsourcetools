@@ -19,13 +19,14 @@ dataframe
 }
 \description{
 Read hourly xlsm output from Heat Source version 7.
-Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not work.
+Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do
+not work.
 }
 \details{
-Data is returned in wide format with the stream km used as the column name for all values.
-An "X" is added as a prefix to every stream km value to have syntactically valid
-column names. The datetime is the first column and is formatted in excel
-numeric date format.
+Data is returned in wide format with the model stream km used as the column
+name for all values. An "X" is added as a prefix to every stream km value to
+have syntactically valid column names. The datetime is the first column and
+is formatted in excel numeric date format.
 
 This function reads the following output sheets:
  \itemize{

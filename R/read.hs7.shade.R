@@ -1,12 +1,13 @@
 #' Read Heat Source 7 effective shade outputs.
 #'
 #' Read xlsm effective shade output from Heat Source version 7.
-#' Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not seem to work.
+#' Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do
+#' not seem to work.
 #'
-#' Data is returned in wide format with the stream km used as the column name for all values.
-#' An "X" is added as a prefix to every stream km value to have syntactically valid
-#' column names. The datetime is the first column and is formatted in excel
-#' numeric date format.
+#' Data is returned in wide format with the model stream km used as the column
+#' name for all values. An "X" is added as a prefix to every stream km value to
+#' have syntactically valid column names. The datetime is the first column and
+#' is formatted in excel numeric date format.
 #'
 #' This function is setup to read the "Chart-Shade" worksheet.
 #'
@@ -22,13 +23,10 @@
 
 read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
 
-  #sim_name <- NULL
-  #constituent_name <- "Effective Shade"
-
   excel.data <- readxl::read_excel(path = file.path(output_dir, file_name),
                                    sheet = sheet_name, skip = 12,
                                    na = c("","N/A", " "),
-                                   col_names = c("stream_km", "datetime", "value"),
+                                   col_names = c("model_km", "datetime", "value"),
                                    col_types = c("numeric","numeric","numeric"))
 
   excel.data$datetime <- as.numeric(excel.data$datetime)
@@ -40,11 +38,11 @@ read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
   # Remove NA rows if there are spaces between each date
   excel.data <- excel.data[complete.cases(excel.data),]
 
-  excel.data <- excel.data[, c("datetime", "stream_km", "value")]
+  excel.data <- excel.data[, c("datetime", "model_km", "value")]
 
   # convert to wide format
   excel.data <- tidyr::pivot_wider(excel.data, values_from = value,
-                                   names_from = stream_km, names_prefix = "X") %>%
+                                   names_from = model_km, names_prefix = "X") %>%
     dplyr::select(datetime, dplyr::everything())
 
 

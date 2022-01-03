@@ -8,7 +8,7 @@ calc_7dadm(
   df,
   datetime_col = "datetime",
   sim_col = "sim",
-  stream_km_col = "stream_km",
+  model_km_col = "model_km",
   value_col = "value"
 )
 }
@@ -17,7 +17,7 @@ calc_7dadm(
        \itemize{
           \item datetime (with datetime as POSIXlt),
           \item sim (with simulation name in character format),
-          \item stream_km (as numeric),
+          \item model_km (as numeric),
           \item value (numeric hourly stream temperature)
           }
 
@@ -27,12 +27,12 @@ calc_7dadm(
 
 \item{sim_col}{Simulation column name. Default is 'sim'.}
 
-\item{stream_km_col}{Stream km column name. Default is 'stream_km'.}
+\item{model_km_col}{Stream km column name. Default is 'model_km'.}
 
 \item{value_col}{Value column name. Default is 'value'.}
 }
 \value{
-data frame with columns 'sim', 'datetime', 'date', 'stream_km', 'constituent', and 'value'.
+data frame with columns 'sim', 'datetime', 'date', 'model_km', 'constituent', and 'value'.
 }
 \description{
 Calculate the daily maximum and rolling seven day average of the daily maximums (7DADM) by date from hourly data.

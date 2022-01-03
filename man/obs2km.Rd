@@ -4,18 +4,19 @@
 \alias{obs2km}
 \title{Matches observation location to the nearest model location}
 \usage{
-obs2km(obskm, simkm)
+obs2km(obskm, modkm)
 }
 \arguments{
 \item{obskm}{Numeric vector of the observation location (e.g. stream kilometer)}
 
-\item{simkm}{Numeric vector of the model output locations (e.g. stream kilometer)}
+\item{modkm}{Numeric vector of the model output distance (e.g. model kilometer)}
 }
 \value{
-vector equal to the length of obskm
+vector of modkm values equal to the length of obskm
 }
 \description{
-Returns a vector of model kilometers (or long distances) that are closest to the
-observation kilometer or distance. If an observation id is equally distant
-between two output kilometers the first one in the vector is used.
+Returns a vector of model kilometers (or long distances) that are closest to
+the observation kilometer or distance. If an observation id is equally
+distant between two output model kilometers the first one in the vector is
+used.
 }
