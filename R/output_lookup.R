@@ -15,7 +15,7 @@
 output_lookup <- function(name=NA, hs_ver=9) {
 
   hs6_list <- list("Effective Shade Data" = c("Effective Shade", "Percent"),
-                   "Long Temp Output" = c("Stream Temperature", "Celsius"))
+                   "Long Temp Output" = c("Temperature, water", "deg C"))
 
   hs7_list <- list("Output - Solar Potential" = c("Solar Radiation Flux above Topographic Features", "watts/square meter"),
                    "Output - Solar Surface" = c("Solar Radiation Flux above the Stream", "watts/square meter"),
@@ -27,7 +27,7 @@ output_lookup <- function(name=NA, hs_ver=9) {
                    "Output - Evaporation" = c("Evaporation Flux", "watts/square meter"),
                    "Output - Total Heat" = c("Total Flux", "watts/square meter"),
                    "Output - Evaporation Rate" = c("Evaporation Rate", "mm/hour"),
-                   "Output - Temperature" = c("Stream Temperature", "Celsius"))
+                   "Output - Temperature" = c("Temperature, water", "deg C"))
 
   hs8_9_list <- list("Heat_SR1" = c("Solar Radiation Flux above Topographic Features", "watts/square meter"),
                      "Heat_SR2" = c("Solar Radiation Flux below Topographic Features", "watts/square meter"),
@@ -39,8 +39,8 @@ output_lookup <- function(name=NA, hs_ver=9) {
                      "VTS" = c("View to Sky", "Fraction of the sky hemisphere obscured by land cover"),
                      "Hyd_DA" = c("Average Depth", "meters"),
                      "Hyd_DM" = c("Max Depth", "meters"),
-                     "Hyd_Flow" = c("Flow Rate", "cms"),
-                     "Hyd_Hyp" = c("Hyporheic Exchange", "cms"),
+                     "Hyd_Flow" = c("Flow Rate", "m3/sec"),
+                     "Hyd_Hyp" = c("Hyporheic Exchange", "m3/sec"),
                      "Hyd_Vel" = c("Flow Velocity", "meters/second"),
                      "Hyd_WT" = c("Top Width", " meters"),
                      "Heat_SR6" = c("Solar Radiation Flux Received by Stream", "watts/square meter"),
@@ -50,9 +50,9 @@ output_lookup <- function(name=NA, hs_ver=9) {
                      "Heat_Conv" = c("Convection Flux", "watts/square meter"),
                      "Heat_Evap" = c("Evaporation Flux", "watts/square meter"),
                      "Rate_Evap" = c("Evaporation Rate", "mm/hour"),
-                     "Temp_H20" = c("Stream Temperature", "Celsius"),
-                     "Temp_H2O" = c("Stream Temperature", "Celsius"),
-                     "Temp_Sed" = c("Sediment Temperature", "Celsius"),
+                     "Temp_H20" = c("Temperature, water", "deg C"),
+                     "Temp_H2O" = c("Temperature, water", "deg C"),
+                     "Temp_Sed" = c("Temperature, sediment", "deg C"),
                      "Hyd_Disp" = c("Hydraulic Dispersion", "square meters/second"))
 
   if (hs_ver == 6) {
