@@ -8,17 +8,19 @@ read.hs.outputs(
   output_dir,
   file_name,
   hs_ver = 9,
-  sheet_name = NA,
-  constituent_name = NA,
-  sim_name = NA
+  sheet_name = NA_character_,
+  constituent_name = NA_character_,
+  sim_name = NA_character_
 )
 }
 \arguments{
-\item{output_dir}{The path to directory where the output Heat Source file is located.}
+\item{output_dir}{The path to directory where the output Heat Source file is
+located.}
 
 \item{file_name}{The file name of the .xlsm for Heat Source version 6-7 or
 the name of the .txt or .csv output file for Heat Source version 8-9.
-For Heat Source 6-7, the ".xlsm" extension should be included in the file name.}
+For Heat Source 6-7, the ".xlsm" extension should be included in the
+file name.}
 
 \item{hs_ver}{The version of Heat Source. Input is a numeric value equal to
 6, 7, 8, or 9. Default is 9.}
@@ -46,7 +48,8 @@ do not work. This function calls \code{\link{format_outputs}} so the returned
 data frame has the following columns:
  \itemize{
  \item sim: Character value of the model scenario simulation name or other description.
- \item constituent: Character value of the constituent (e.g. Temperature).
+ \item constituent: Character value of the constituent (e.g.
+       'Temperature, water').
  \item datetime: POSIXct datetime.
  \item date: Character date in format "mm/dd/YYYY".
  \item model_km: numeric stream kilometer extracted from the model.

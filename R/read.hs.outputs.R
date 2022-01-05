@@ -6,7 +6,8 @@
 #' data frame has the following columns:
 #'  \itemize{
 #'  \item sim: Character value of the model scenario simulation name or other description.
-#'  \item constituent: Character value of the constituent (e.g. Temperature).
+#'  \item constituent: Character value of the constituent (e.g.
+#'        'Temperature, water').
 #'  \item datetime: POSIXct datetime.
 #'  \item date: Character date in format "mm/dd/YYYY".
 #'  \item model_km: numeric stream kilometer extracted from the model.
@@ -31,10 +32,12 @@
 #' \item 'Flow Velocity'
 #' }
 #'
-#' @param output_dir The path to directory where the output Heat Source file is located.
+#' @param output_dir The path to directory where the output Heat Source file is
+#'        located.
 #' @param file_name The file name of the .xlsm for Heat Source version 6-7 or
 #'       the name of the .txt or .csv output file for Heat Source version 8-9.
-#'       For Heat Source 6-7, the ".xlsm" extension should be included in the file name.
+#'       For Heat Source 6-7, the ".xlsm" extension should be included in the
+#'       file name.
 #' @param hs_ver The version of Heat Source. Input is a numeric value equal to
 #'       6, 7, 8, or 9. Default is 9.
 #' @param sheet_name The name of the Heat Source 6-7 output worksheet to read.
@@ -59,10 +62,11 @@
 #'
 
 read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
-                            sheet_name = NA, constituent_name = NA,
-                            sim_name = NA) {
-  # Reads any output from heat source version 6-9. Does some formatting, and returns the data
-  # as a data frame in long format.
+                            sheet_name = NA_character_,
+                            constituent_name = NA_character_,
+                            sim_name = NA_character_) {
+  # Reads any output from heat source version 6-9. Does some formatting, and
+  # returns the data as a data frame in long format.
   # Simulation name, constituent, statistic are strings
   # hours are added as ID variables.
   # sheet_name is only used for heat source 7
@@ -79,29 +83,29 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
       data.wide <- read.hs6.shade(output_dir = output_dir,
                                   file_name = file_name,
                                   sheet_name = sheet_name)
-
     }
 
-    if (constituent_name == "Flow Rate") {
-
-      data.wide <- read.hs6.flow(output_dir = output_dir,
-                                 file_name = file_name,
-                                 sheet_name = sheet_name)
-    }
-
-    if (constituent_name == "Flow Velocity") {
-
-      data.wide <- read.hs6.velocity(output_dir = output_dir,
-                                     file_name = file_name,
-                                     sheet_name = sheet_name)
-
-    }
-
-    if (!constituent_name %in% c("Flow Rate", "Flow Velocity")) {
+    if (is.na(constituent_name) | !constituent_name %in% c("Flow Rate",
+                                                           "Flow Velocity")) {
 
       data.wide <- read.hs6.temp(output_dir = output_dir,
                                  file_name = file_name,
                                  sheet_name = sheet_name)
+    } else {
+
+      if (constituent_name == "Flow Rate") {
+
+        data.wide <- read.hs6.flow(output_dir = output_dir,
+                                   file_name = file_name,
+                                   sheet_name = sheet_name)
+      }
+
+      if (constituent_name == "Flow Velocity") {
+
+        data.wide <- read.hs6.velocity(output_dir = output_dir,
+                                       file_name = file_name,
+                                       sheet_name = sheet_name)
+      }
     }
   }
 
@@ -111,34 +115,35 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
     name <- sheet_name
 
     if (grepl("shade", sheet_name, ignore.case = TRUE)) {
-      # if shade we have to use a special function because the formatting of that sheet is different
+      # if shade we have to use a special function because the formatting of
+      # that sheet is different
 
       data.wide <- read.hs7.shade(output_dir = output_dir,
                                   file_name = file_name,
                                   sheet_name = sheet_name)
-
     }
 
-    if (constituent_name == "Flow Rate") {
-
-      data.wide <- read.hs7.flow(output_dir = output_dir,
-                                 file_name = file_name,
-                                 sheet_name = sheet_name)
-    }
-
-    if (constituent_name == "Flow Velocity") {
-
-      data.wide <- read.hs7.velocity(output_dir = output_dir,
-                                     file_name = file_name,
-                                     sheet_name = sheet_name)
-
-    }
-
-    if (!constituent_name %in% c("Flow Rate", "Flow Velocity")) {
+    if (is.na(constituent_name) | constituent_name %in% c("Flow Rate",
+                                                          "Flow Velocity")) {
 
       data.wide <- read.hs7.outputs(output_dir = output_dir,
                                     file_name = file_name,
                                     sheet_name = sheet_name)
+    } else {
+
+      if (constituent_name == "Flow Rate") {
+
+        data.wide <- read.hs7.flow(output_dir = output_dir,
+                                   file_name = file_name,
+                                   sheet_name = sheet_name)
+      }
+
+      if (constituent_name == "Flow Velocity") {
+
+        data.wide <- read.hs7.velocity(output_dir = output_dir,
+                                       file_name = file_name,
+                                       sheet_name = sheet_name)
+      }
     }
   }
 
