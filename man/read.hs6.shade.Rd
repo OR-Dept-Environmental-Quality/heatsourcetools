@@ -7,7 +7,8 @@
 read.hs6.shade(output_dir, file_name, sheet_name = "Effective Shade Data")
 }
 \arguments{
-\item{output_dir}{The path to the directory where the Heat Source 6 .xlsm model is located.}
+\item{output_dir}{The path to the directory where the Heat Source 6 .xlsm 
+model is located.}
 
 \item{file_name}{The file name of the .xlsm Heat Source 6 model.
 The ".xlsm" extension should be included in the file name.}
@@ -19,13 +20,14 @@ data frame
 }
 \description{
 Read xlsm effective shade output from Heat Source version 6.
-Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do not seem to work.
+Heat Source excel workbook needs to be saved as .xlsm. Workbooks in .xls do 
+not seem to work.
 }
 \details{
-Data is returned in wide format with the long distance used as the column name for all values.
-An "X" is added as a prefix to every long distance value to have syntactically valid
-column names. The datetime is the first column and is formatted in excel
-numeric date format.
+Data is returned in wide format with the long distance used as the column 
+name for all values. An "X" is added as a prefix to every long distance value 
+to have syntactically valid column names. The datetime is the first column 
+and is formatted in excel numeric date format.
 
 This function is setup to read the "Effective Shade Data" worksheet.
 }
