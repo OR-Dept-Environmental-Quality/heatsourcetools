@@ -61,7 +61,7 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
 
   df.long$datetime <- lubridate::round_date(as.POSIXct((df.long$datetime*60*60*24),
                                                        origin = "1899-12-30",
-                                                       tz = "GMT"),
+                                                       tz = "UTC"),
                                             unit = "minute")
 
 

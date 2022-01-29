@@ -32,7 +32,7 @@ read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
   excel.data$datetime <- as.numeric(excel.data$datetime)
 
   excel.data$datetime <- lubridate::round_date(as.POSIXct((excel.data$datetime * 60 * 60 * 24),
-                                                          origin = "1899-12-30", tz = "GMT"),
+                                                          origin = "1899-12-30", tz = "UTC"),
                                                unit = "minute")
 
   # Remove NA rows if there are spaces between each date
