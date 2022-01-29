@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 script_snapshot
 R_dev
+^scripts$
