@@ -1,7 +1,31 @@
-#---------------------------------------------------------------------------------------
-# Legacy functions to read and format heat source inputs.outputs. Functions here
-# are not currently setup as package functions.
-#---------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Legacy functions to read and format heat source inputs and outputs. Functions 
+# here are not being maintained and some are not setup as proper package 
+# functions.
+#-------------------------------------------------------------------------------
+
+
+#' Matches observation location to the nearest model location
+#'
+#' Returns a vector of model kilometers (or long distances) that are closest to
+#' the observation kilometer or distance. If an observation id is equally
+#' distant between two output model kilometers the first one in the vector is
+#' used.
+#'
+#' @param obskm Numeric vector of the observation location (e.g. stream kilometer)
+#' @param modkm Numeric vector of the model output distance (e.g. model kilometer)
+#' @export
+#' @return vector of modkm values equal to the length of obskm
+#'
+obs2km <- function(obskm, modkm) {
+  
+  warning("obs2km is deprecated. Use the function match_near instead. 
+          E.g. match_near(obskm, modkm)")
+  
+  match_km <- sapply(obskm, function(o, s) {s[which.min(abs(s - o))]}, s = modkm)
+  return(match_km)
+}
+
 
 read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   # Reads all the hourly flux output from heat source, does some formatting, calculates total flux by
@@ -237,108 +261,6 @@ calc.summary <- function(df) {
   data.summary$statistic <- as.character(data.summary$statistic)
 
   return(data.summary)
-
-}
-
-read.hs8.landcover <- function(output_dir, file_name, sim_name, sheet_name="TTools Data") {
-  # Function to read Landcover input data from heat source 8. Returns the data
-  # as a dataframe. Excel workbook needs to be saved as .xlsx. .xls do not seem to work.
-
-  library(readxl)
-
-  #col_names=c("", "Datetime", "value"),
-  #col_types =c("numeric","numeric","numeric")
-
-  lc.data <- read_excel(path=paste0(output_dir,"/",file_name), sheet=sheet_name, na = c("","N/A", " "),
-                        range=cell_cols("B:BL"),
-                        col_names = FALSE)
-
-  lc.data <- lc.data[c(4:nrow(lc.data)),c(1:35)]
-
-  colnames(lc.data) <- c("Stream_km", "long", "lat",
-                         "topo_w", "topo_s", "topo_e",
-                         "LC_T0_S0", paste0("LC_T", rep(1:7, each = 4), "_S", 1:4))
-
-  lc.data$sim <- sim_name
-
-  return(lc.data)
-
-}
-
-read.hs7.landcover <- function(output_dir, file_name, sim_name, sheet_name="TTools Data") {
-  # Function to read Landcover input data from heat source 7. Returns the data
-  # as a dataframe. Excel workbook needs to be saved as .xlsx. .xls do not seem to work.
-
-  library(readxl)
-
-  #col_names=c("", "Datetime", "value"),
-  #col_types =c("numeric","numeric","numeric")
-
-  lc.data <- read_excel(path=paste0(output_dir,"/",file_name), sheet=sheet_name, na = c("","N/A", " "),
-                        range=cell_cols("C:FE"),
-                        col_names = FALSE)
-
-  # This keeps everything and only removes unused rows and cols
-  #lc.data <- lc.data[c(16:nrow(lc.data)),c(1:124,126:133,135:142,144:145,147:148,150:156,158:159)]
-
-  lc.data <- lc.data[c(16:nrow(lc.data)),c(1:40,144:145,147:148)]
-
-  colnames(lc.data) <- c("stream_node","long_distance", "Stream_km", "lat", "long",
-                         "Elevation", "width", "Aspect", "topo_w", "topo_s", "topo_e",
-                         "LC_T0_S0", paste0("LC_T", rep(1:7, each = 4), "_S", 1:4),
-                         "height_l", "height_r", "density_l", "density_r")
-
-  # only keep relevant rows for plotting, removes LC codes, elevations, etc
-  #lc.data <- lc.data[c(16:nrow(lc.data)),c(1:11,144:145,147:148)]
-
-  #colnames(lc.data) <- c("stream_node","long_distance", "Stream_km", "lat", "long", "Elevation", "width", "Aspect", "topo_w", "topo_s", "topo_e",
-  #                       "height_l", "height_r", "density_l", "density_r")
-
-  lc.data$sim <- sim_name
-
-  return(lc.data)
-
-}
-
-read.hs7.lccodes <- function(output_dir, file_name, sim_name, sheet_name="Land Cover Codes") {
-  # Function to read Landcover code input data from heat source 7. Returns the data
-  # as a dataframe. Excel workbook needs to be saved as .xlsx. .xls do not seem to work.
-
-  library(readxl)
-
-  lccode.data <- read_excel(path=paste0(output_dir,"/",file_name), sheet=sheet_name, na = c("","N/A", " "),
-                            range=cell_cols("D:H"),
-                            col_names=c("Landcover", "Code", "Height", "Density", "Overhang"),
-                            col_types =c("text","text","numeric","numeric","numeric"))
-
-  lccode.data <- lccode.data[c(16:nrow(lccode.data)),c(1:5)]
-
-  lccode.data$sim <- sim_name
-
-  return(lccode.data)
-
-}
-
-read.hs7.morphology <- function(output_dir, file_name, sim_name, sheet_name="Morphology Data") {
-  # Function to read Morphology input data from heat source 7. Returns the data
-  # as a dataframe. Excel workbook needs to be saved as .xlsx. .xls do not seem to work.
-
-  library(readxl)
-
-  excel.data <- read_excel(path=paste0(output_dir,"/",file_name), sheet=sheet_name, na = c("","N/A", " "),
-                           range=cell_cols("C:T"),
-                           col_names = FALSE)
-
-  excel.data <-  excel.data[c(16:nrow(excel.data)),c(1:3,5:18)]
-
-  colnames(excel.data) <- c("stream_node","long_distance", "Stream_km", "Gradient", "Mannings_n",
-                            "Rosgen", "WD_Ratio", "Bankfull_Width", "Bottom_Width", "Max_Depth",
-                            "Mean_Depth","Xsec_Area","AngleZ","X_Factor",
-                            "Bed_Conductivity","Particle_Size","Embeddedness")
-
-  excel.data$sim <- sim_name
-
-  return( excel.data)
 
 }
 
