@@ -20,33 +20,44 @@
 #' \itemize{
 #'  \item Monitoring.Location.ID: Character value of the monitoring location ID.
 #'  \item GNIS_Name: Character name of the waterbody.
-#'  \item model_km: Numeric model stream kilometer corresponding to the location of the monitoring site
+#'  \item model_km: Numeric model stream kilometer corresponding to the location
+#'                  of the monitoring site
 #'  }
 #'
 #' Required 'Results' worksheet columns:
 #'  \itemize{
 #'  \item Monitoring.Location.ID: Character value of the monitoring location ID.
-#'  \item Activity.Start.Date: Date of sample. Formatted as an excel date in the format 'YYYY/MM/DD'.
-#'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the format 'HH24:MM'.
+#'  \item Activity.Start.Date: Date of sample. Formatted as an excel date in the
+#'        format 'YYYY/MM/DD'.
+#'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
+#'        format 'HH24:MM'.
 #'  \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
-#'  \item Characteristic.Name: Characteristic name used in AWQMS. (e.g. 'Temperature, water', 'Flow')
+#'  \item Characteristic.Name: Characteristic name used in AWQMS.
+#'        (e.g. 'Temperature, water', 'Flow')
 #'  \item Result.Value: Measured characteristic result value.
-#'  \item Result.Unit: Units for measured characteristic result. Same as what is used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
+#'  \item Result.Unit: Units for measured characteristic result. Same as what is
+#'        used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
 #'  }
 #'
 #' Required 'TIR' worksheet columns:
 #'  \itemize{
 #'  \item Monitoring.Location.ID: Character value of the monitoring location ID.
-#'  \item model_km: Numeric model stream kilometer corresponding to the location of the monitoring site
-#'  \item Activity.Start.Date: Date of sample. Formatted as an excel date in the format 'YYYY/MM/DD'.
-#'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the format 'HH24:MM'.
+#'  \item model_km: Numeric model stream kilometer corresponding to the location
+#'        of the monitoring site
+#'  \item Activity.Start.Date: Date of sample. Formatted as an excel date in the
+#'        format 'YYYY/MM/DD'.
+#'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
+#'        format 'HH24:MM'.
 #'  \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
-#'  \item Characteristic.Name: Characteristic name used in AWQMS. (e.g. 'Temperature, water', 'Flow')
+#'  \item Characteristic.Name: Characteristic name used in AWQMS.
+#'        (e.g. 'Temperature, water', 'Flow')
 #'  \item Result.Value: Measured characteristic result value.
-#'  \item Result.Unit: Units for measured characteristic result. Same as what is used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
+#'  \item Result.Unit: Units for measured characteristic result. Same as what is
+#'        used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
 #'  }
 #'
-#' @param obs_dir The path to directory where observation data .xlsx file is located.
+#' @param obs_dir The path to directory where observation data .xlsx file is
+#'        located.
 #' @param file_name The name of the observation data .xlsx file.
 #' @export
 
