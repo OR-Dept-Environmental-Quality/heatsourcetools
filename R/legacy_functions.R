@@ -1,5 +1,6 @@
 #---------------------------------------------------------------------------------------
-# Functions to read and format heat source outputs
+# Legacy functions to read and format heat source inputs.outputs. Functions here
+# are not currently setup as package functions.
 #---------------------------------------------------------------------------------------
 
 read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
@@ -155,24 +156,6 @@ read.solar.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   flux.l$hour <-as.integer(format(flux.l$Datetime, "%H"))
 
   return(flux.l)
-
-}
-
-read.obs <- function(obs_dir, file_name) {
-  # Read observation data
-
-  obs.raw <- read.table(paste0(obs_dir,file_name),
-                        sep=",", dec=".",skip=0, header=TRUE,
-                        stringsAsFactors = FALSE, na.strings = "NA")#,
-                        #quote="")
-
-  # Format Datetime
-  obs.raw$Datetime <- as.POSIXct(obs.raw$Datetime,format="%m/%d/%Y %H:%M", tz="GMT") #6/17/2003 0:00
-
-  # Add character Date
-  obs.raw$Date <- format(obs.raw$Datetime, "%m/%d/%Y")
-
-  return(obs.raw)
 
 }
 
