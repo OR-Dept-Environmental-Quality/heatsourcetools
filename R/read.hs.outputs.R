@@ -85,7 +85,7 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
                                   sheet_name = sheet_name)
     }
 
-    if (is.na(constituent_name) | !constituent_name %in% c("Flow Rate",
+    if (is.na(constituent_name) | !constituent_name %in% c("Flow",
                                                            "Flow Velocity")) {
 
       data.wide <- read.hs6.temp(output_dir = output_dir,
@@ -123,7 +123,7 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
                                   sheet_name = sheet_name)
     }
 
-    if (is.na(constituent_name) | constituent_name %in% c("Flow Rate",
+    if (is.na(constituent_name) | !constituent_name %in% c("Flow",
                                                           "Flow Velocity")) {
 
       data.wide <- read.hs7.outputs(output_dir = output_dir,
@@ -131,7 +131,7 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
                                     sheet_name = sheet_name)
     } else {
 
-      if (constituent_name == "Flow Rate") {
+      if (constituent_name == "Flow") {
 
         data.wide <- read.hs7.flow(output_dir = output_dir,
                                    file_name = file_name,

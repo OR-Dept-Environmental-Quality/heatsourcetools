@@ -39,7 +39,7 @@ output_lookup <- function(name=NA, hs_ver=9) {
                      "VTS" = c("View to Sky", "Fraction of the sky hemisphere obscured by land cover"),
                      "Hyd_DA" = c("Average Depth", "meters"),
                      "Hyd_DM" = c("Max Depth", "meters"),
-                     "Hyd_Flow" = c("Flow Rate", "m3/sec"),
+                     "Hyd_Flow" = c("Flow", "m3/sec"),
                      "Hyd_Hyp" = c("Hyporheic Exchange", "m3/sec"),
                      "Hyd_Vel" = c("Flow Velocity", "meters/second"),
                      "Hyd_WT" = c("Top Width", " meters"),
