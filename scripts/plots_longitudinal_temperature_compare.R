@@ -41,14 +41,17 @@ df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
 
 #--  Read temps and calc 7dadm ------------------------------------
 
-data1 <- calc_7dadm(df.sim1) #%>% rbind(df.sim1)
-data2 <- calc_7dadm(df.sim2) #%>% rbind(df.sim2)
+data1 <- calc_7dadm(df.sim1)
+data2 <- calc_7dadm(df.sim2)
 
 df <- rbind(data1, data2) %>%
   pivot_wider(names_from = "sim", values_from = "value") %>%
   drop_na(sim1, sim2) %>%
   mutate(Change = sim2 - sim1) %>%
-  pivot_longer(cols = all_of(c("sim1", "sim2", "Change")), names_to = "sim", values_to = "value")
+  pivot_longer(cols = all_of(c("sim1", "sim2", "Change")), names_to = "sim", values_to = "value") %>%
+  mutate(sim = case_when(sim == "sim1" ~ sim1_name,
+                         sim == "sim2" ~ sim2_name,
+                         TRUE ~ sim))
 
 rm(data1, data2)
 
@@ -56,7 +59,7 @@ rm(data1, data2)
 
 # Calc max, median, and min
 df.summary <- df %>%
-  group_by(constituent, datetime, date, model_km, sim) %>%
+  group_by(constituent, model_km, sim) %>%
   summarise(min = min(value, na.rm = TRUE),
             median = median(value, na.rm = TRUE),
             max = max(value, na.rm = TRUE),
@@ -90,17 +93,10 @@ write_xlsx(x = df.pomi,
 # set y axis plot limits
 round_any = function(x, accuracy, f = round) {f(x / accuracy) * accuracy}
 
-ymin <- df.summary %>%
-  filter(sim == "Change" & constituent == plot_stat) %>%
-  slice(which.min(min)) %>%
-  pull(min) %>%
-  round_any(accuracy = 5, f = floor)
-
-ymax <- df.summary %>%
-  filter(sim %in% c("sim1", "sim2") & constituent == plot_stat) %>%
-  slice(which.max(max)) %>%
-  pull(max) %>%
-  round_any(accuracy = 5, f = ceiling)
+y <- filter(df.summary, sim == "Change" & constituent == plot_stat)
+ymin <- round_any(min(y$min, na.rm = TRUE), accuracy = 0.5 , f = floor)
+ymax <- round_any(max(y$max, na.rm = TRUE), accuracy = 0.5 , f = ceiling)
+rm(y)
 
 # longitudinal plot of dT summary
 
@@ -112,13 +108,19 @@ p.dT <- df.summary %>%
   geom_line(aes(y = 0.3, linetype = "HUA")) +
   scale_linetype_manual(values = c("Median Change" = "solid",
                                    "HUA allocation" = "dashed")) +
-  scale_fill_manual(values = "skyblue") +
-  theme(legend.position = "bottom") +
-  theme(legend.title = element_blank()) +
+  scale_fill_manual(values = "darkgrey") +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.key = element_blank(),
+        panel.background = element_rect(fill = "white", colour = "black"),
+        strip.background = element_rect(fill = "white", colour = "black"),
+        panel.grid.major = element_line(colour = "lightgrey"),
+        plot.title = element_text(size = 12, hjust = 0.5)) +
   xlab("Model Stream Kilometer") +
   ylab("Change 7DADM (deg-C)") +
-  ylim(0, ymax)
-  #facet_wrap(~sim+constituent, nrow = 2)
+  ylim(ymin, ymax) +
+  xlim(0, NA)
+
 p.dT
 
 ggsave(file = file.path(out_dir, paste0(out_name,"_dT_7DADM.png")),
@@ -126,31 +128,4 @@ ggsave(file = file.path(out_dir, paste0(out_name,"_dT_7DADM.png")),
        height = 3,
        width = 6.75,
        units = "in")
-
-# longitudinal plot of each simulation
-p.sims <-  df.summary %>%
-  filter(sim %in% c("sim1", "sim2") & constituent == plot_stat) %>%
-  ggplot(aes(x = model_km)) +
-  #geom_ribbon(aes(ymax = max, ymin = min, color = sim, fill = sim), alpha = 0.6) +
-  #geom_ribbon(aes(ymax = max, ymin = min, color  =sim, fill = "Min & Max Range"), alpha = 0.6) +
-  geom_line(aes(y = median, linetype = "Median", color = sim)) +
-  geom_line(aes(y = bbnc, linetype = "Applicable Criteria")) +
-  scale_linetype_manual(values = c("Median" = "solid", "Applicable Criteria" = "dashed")) +
-  #scale_fill_manual(values = c("grey65","grey15")) +
-  scale_color_manual(values = c("grey65","grey15")) +
-  #scale_fill_manual(values = c("#FFC20A","#0C7BDC")) +
-  #scale_color_manual(values = c("#FFC20A","#0C7BDC")) +
-  theme(legend.position = "bottom") +
-  theme(legend.title = element_blank()) +
-  xlab("Model Stream Kilometer") +
-  ylab("7DADM Temperature(C)") +
-  ylim(0, ymax)
-
-p.sims
-
-ggsave(file=paste0(out_dir,name,"_SIM_SUMM_7DADM.png"),
-       plot=p.sim.summ ,
-       height=5,
-       width=6.75,
-       units="in")
 
