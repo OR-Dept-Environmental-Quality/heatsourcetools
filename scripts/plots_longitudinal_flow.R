@@ -5,6 +5,7 @@
 
 library(heatsourcetools)
 library(dplyr)
+library(tidyr)
 library(lubridate)
 library(ggplot2)
 
@@ -71,11 +72,16 @@ p.flow <- ggplot(data = df, aes(x = model_km)) +
   guides(color = guide_legend(override.aes = list(shape = c(16, NA),
                                                   linetype = c(0, 1))))  +
   scale_colour_manual(values = c("Observations" = "Black", "Model" = "red")) +
-  theme(legend.position = "bottom") +
-  theme(legend.title = element_blank()) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.key = element_blank(),
+        panel.background = element_rect(fill = "white", colour = "black"),
+        strip.background = element_rect(fill = "white", colour = "black"),
+        panel.grid.major = element_line(colour = "lightgrey"),
+        plot.title = element_text(size = 12, hjust = 0.5)) +
   xlab("Model Stream Kilometer") +
   ylab("Flow Rate (cfs)") +
-  facet_wrap(~date, nrow = length(plot.dates))
+  facet_wrap(~date, nrow = length(plot.dates), strip.position = "top")
 
 ggsave(file = file.path(out_dir, paste0(name, "_flow.png")),
        plot = p.flow,
