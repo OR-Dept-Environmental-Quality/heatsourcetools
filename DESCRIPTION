@@ -1,7 +1,7 @@
 Package: heatsourcetools
 Type: Package
 Title: Heat Source Model Post Processing Tools
-Version: 0.2.1
+Version: 0.3.0
 Author: c(person(given = "Ryan",
            family = "Michie",
            role = c("aut", "cre"),
@@ -11,6 +11,7 @@ Description: R package to assist post processing of heat source models.
 Imports:
     cellranger (>= 1.1.0),
     dplyr (>= 0.8.3),
+    hydroGOF (>= 0.4-0),
     lubridate (>= 1.7),
     magrittr (>= 2.0.1),
     readxl (>= 1.2.0),
