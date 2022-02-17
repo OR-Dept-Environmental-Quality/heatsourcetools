@@ -66,7 +66,8 @@ calc_gof <- function(preds, obs, tolerance = 60) {
     dplyr::mutate(datetime.hour = lubridate::round_date(datetime.obs, unit = "hour"),
                   year = lubridate::year(datetime.hour),
                   month = lubridate::month(datetime.hour),
-                  day = lubridate::day(datetime.hour)) %>%
+                  day = lubridate::day(datetime.hour),
+                  hour = lubridate::hour(datetime.hour)) %>%
     dplyr::filter(datetime.hour >= t.min & datetime.hour <= t.max) %>%
     dplyr::arrange(Monitoring.Location.ID, constituent, model_km, datetime.obs)
 
@@ -75,27 +76,15 @@ calc_gof <- function(preds, obs, tolerance = 60) {
                   datetime.preds = datetime, Predictions = value) %>%
     dplyr::mutate(year = lubridate::year(datetime.preds),
                   month = lubridate::month(datetime.preds),
-                  day = lubridate::day(datetime.preds)) %>%
+                  day = lubridate::day(datetime.preds),
+                  hour = lubridate::hour(datetime.preds)) %>%
     dplyr::filter(model_km %in% unique(obs2$model_km)) %>%
     dplyr::arrange(Monitoring.Location.ID, constituent, model_km, datetime.preds)
 
-  df <- obs2 %>%
-    dplyr::full_join(preds2, by = c("Monitoring.Location.ID", "constituent",
-                                   "year", "month", "day", "model_km")) %>%
-    dplyr::group_by(Monitoring.Location.ID, constituent, year, month, day,
-                    model_km) %>%
-    dplyr::slice(which.min(abs(datetime.preds - datetime.obs))) %>%
-    dplyr::mutate(diff.minutes = abs(as.numeric(difftime(datetime.preds,
-                                                         datetime.obs,
-                                                         units = "mins")))) %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(diff.minutes <= tolerance)
-
-
   df <- preds2 %>%
     dplyr::inner_join(obs2, by = c("Monitoring.Location.ID", "constituent",
-                                   "year", "month", "day", "model_km")) %>%
-    dplyr::group_by(Monitoring.Location.ID, constituent, year, month, day,
+                                   "year", "month", "day", "hour", "model_km")) %>%
+    dplyr::group_by(Monitoring.Location.ID, constituent, year, month, day, hour,
                     model_km) %>%
     dplyr::slice(which.min(abs(datetime.preds - datetime.obs))) %>%
     dplyr::mutate(diff.minutes = abs(as.numeric(difftime(datetime.preds,
