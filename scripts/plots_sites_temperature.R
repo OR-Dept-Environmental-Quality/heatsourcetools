@@ -18,7 +18,6 @@ w <- 6.75
 #h <- 5
 #w <- 10
 
-# Name that goes on plot
 out_name <- "Jenny_01_CCC"
 out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
 
@@ -80,11 +79,11 @@ df <- preds %>%
 # set y axis plot limits
 round_any = function(x, accuracy, f = round) {f(x / accuracy) * accuracy}
 
-ymin <- round_any(min(df$value, na.rm = TRUE), 5, floor)
-ymax <- round_any(max(df$value, na.rm = TRUE), 5, ceiling)
+ymin <- 0
+ymax <- round_any(max(preds$value, na.rm = TRUE), 5, ceiling)
 
-xmin <- round_date(min(preds$datetime), unit = "day")
-xmax <- round_date(max(preds$datetime), unit = "day")
+xmin <- floor_date(min(preds$datetime), unit = "day")
+xmax <- ceiling_date(max(preds$datetime), unit = "day")
 
 i <- 1
 
@@ -106,7 +105,7 @@ for (i in 1:length(obs.km.lookup$model_km)) {
     scale_size_manual(values = c(1, 0.5)) +
     scale_linetype_manual(values = c("solid","solid")) +
     scale_y_continuous(limits = c(ymin, ymax)) +
-    scale_x_datetime(date_breaks = "5 days", date_labels = "%m-%d-%Y",
+    scale_x_datetime(date_breaks = "7 days", date_labels = "%m-%d-%Y",
                      limits = c(xmin, xmax)) +
     labs(title = p.title,
          subtitle = paste0("Model Kilometer ", skm)) +
