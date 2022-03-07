@@ -28,7 +28,7 @@
 #' constituent name helps the function identify which output to read. In this
 #' situation use one of the following for \code{constituent_name}:
 #' \itemize{
-#' \item 'Flow Rate'
+#' \item 'Flow' aka Flow Rate
 #' \item 'Flow Velocity'
 #' }
 #'
@@ -45,10 +45,10 @@
 #'        \code{constituent_name} must be identified for Heat Source 6-7 models
 #'        when reading the 'Main Menu' or 'Output - Hydraulics' worksheets
 #'        See details for more information.
-#' @param constituent_name The name of the output. String format. Required for
-#'        Heat Source 6 when reading from the (see details). Default is NA.
-#'        If NA, the function will attempt to look up the constituent
-#'        using \code{\link{output_lookup}}.
+#' @param constituent_name The name of the output. String format. Required for 
+#'        Heat Source 6 and 7 models when reading Hydraulic outputs 
+#'        (see details). Default is NA. If NA, the function will attempt to 
+#'        look up the constituent using \code{\link{output_lookup}}.
 #' @param sim_name The name of the model scenario. String format. Default is NA.
 #' @seealso \code{\link{read.hs6.temp}}, \code{\link{read.hs6.shade}},
 #'          \code{\link{read.hs6.flow}}, \code{\link{read.hs6.velocity}},
@@ -70,100 +70,126 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
   # Simulation name, constituent, statistic are strings
   # hours are added as ID variables.
   # sheet_name is only used for heat source 7
-
+  
   # Assign the correct read function based on model version
   if (as.integer(hs_ver) == 6) {
-
+    
     name <- sheet_name
-
-    if (grepl("shade", sheet_name, ignore.case = TRUE)) {
+    
+    if (grepl("shade", constituent_name, ignore.case = TRUE) | 
+        grepl("shade", sheet_name, ignore.case = TRUE)) {
       # if shade we have to use a special function because the formatting of
       # that sheet is different
-
+      
       data.wide <- read.hs6.shade(output_dir = output_dir,
                                   file_name = file_name,
                                   sheet_name = sheet_name)
     }
-
-    if (is.na(constituent_name) | !constituent_name %in% c("Flow",
-                                                           "Flow Velocity")) {
-
+    
+    if (grepl("temperature", constituent_name, ignore.case = TRUE) | 
+        grepl("temp", sheet_name, ignore.case = TRUE)) {
+      # temperature data
+      
       data.wide <- read.hs6.temp(output_dir = output_dir,
                                  file_name = file_name,
                                  sheet_name = sheet_name)
-    } else {
-
-      if (constituent_name == "Flow Rate") {
-
+      
+    }
+    
+    if (grepl("Menu", sheet_name, ignore.case = TRUE)) {
+      
+      if (is.na(constituent_name)) {
+        stop("The constituent_name' must be one of 'Flow' or 
+        Flow Velocity'. For Heat Source 6 models it is necessary to identify the 
+        'constituent_name' when reading hydraulic outputs 
+        (e.g. sheet_name = 'Main Menu'. This is necessary because this sheet 
+        has multiple outputs and the constituent name helps the function 
+        identify which output to read. see ?read.hs.outputs for more info.")
+      }
+      
+      if (constituent_name == "Flow") {
+        
         data.wide <- read.hs6.flow(output_dir = output_dir,
                                    file_name = file_name,
                                    sheet_name = sheet_name)
       }
-
+      
       if (constituent_name == "Flow Velocity") {
-
+        
         data.wide <- read.hs6.velocity(output_dir = output_dir,
                                        file_name = file_name,
                                        sheet_name = sheet_name)
       }
     }
   }
-
+  
   # Assign the correct read function based on model version
   if (as.integer(hs_ver) == 7) {
-
+    
     name <- sheet_name
-
-    if (grepl("shade", sheet_name, ignore.case = TRUE)) {
+    
+    if (grepl("shade", constituent_name, ignore.case = TRUE) | 
+        grepl("shade", sheet_name, ignore.case = TRUE)) {
       # if shade we have to use a special function because the formatting of
       # that sheet is different
-
+      
       data.wide <- read.hs7.shade(output_dir = output_dir,
                                   file_name = file_name,
                                   sheet_name = sheet_name)
     }
-
-    if (is.na(constituent_name) | !constituent_name %in% c("Flow",
-                                                          "Flow Velocity")) {
-
-      data.wide <- read.hs7.outputs(output_dir = output_dir,
-                                    file_name = file_name,
-                                    sheet_name = sheet_name)
-    } else {
-
+    
+    if (grepl("Hydraulics", sheet_name, ignore.case = TRUE)) {
+      
+      if (is.na(constituent_name)) {
+        stop("The constituent_name' must be one of 'Flow' or 
+        'Flow Velocity'. For Heat Source 7 models it is necessary to identify the 
+        'constituent_name' when reading hydraulic outputs 
+        (e.g. sheet_name = 'Output - Hydraulics'. This is necessary because this 
+        sheets has multiple outputs and the constituent name helps the function 
+        identify which output to read. see ?read.hs.outputs for more info.") }
+      
       if (constituent_name == "Flow") {
-
+        
         data.wide <- read.hs7.flow(output_dir = output_dir,
                                    file_name = file_name,
                                    sheet_name = sheet_name)
       }
-
+      
       if (constituent_name == "Flow Velocity") {
-
+        
         data.wide <- read.hs7.velocity(output_dir = output_dir,
                                        file_name = file_name,
                                        sheet_name = sheet_name)
-      }
+      } 
+    }
+    
+    if (!grepl("Hydraulics|shade", sheet_name, ignore.case = TRUE)) {
+      # Anything but hydraulics and shade
+      
+      data.wide <- read.hs7.outputs(output_dir = output_dir,
+                                    file_name = file_name,
+                                    sheet_name = sheet_name)
+      
     }
   }
-
+  
   if (as.integer(hs_ver) == 8) {
     data.wide <- read.hs8.outputs(output_dir = output_dir,
                                   file_name = file_name)
     name <- file_name
   }
-
+  
   if (as.integer(hs_ver) == 9) {
     data.wide <- read.hs9.outputs(output_dir = output_dir,
                                   file_name = file_name)
     name <- file_name
   }
-
+  
   data.final <- format_outputs(df = data.wide, hs_ver = hs_ver,
                                name = name,
                                constituent_name = constituent_name,
                                sim_name = sim_name)
-
+  
   return(data.final)
-
+  
 }
