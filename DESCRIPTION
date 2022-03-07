@@ -1,7 +1,7 @@
 Package: heatsourcetools
 Type: Package
 Title: Heat Source Model Post Processing Tools
-Version: 0.3.2
+Version: 0.3.3
 Author: c(person(given = "Ryan",
            family = "Michie",
            role = c("aut", "cre"),
