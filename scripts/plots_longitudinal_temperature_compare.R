@@ -70,7 +70,8 @@ df.pomi <- df %>%
   dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
   dplyr::slice(which.max(abs(value))) %>%
-  dplyr::mutate(metric = "POMI") %>%
+  dplyr::mutate(location = "POMI") %>%
+  dplyr::filter(sim == "Change") %>%
   as.data.frame()
 
 # Impact at most downstream node (outlet)
@@ -79,7 +80,7 @@ df.pomi <- df %>%
   dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
   dplyr::slice(which.max(abs(value))) %>%
-  dplyr::mutate(metric = "outlet") %>%
+  dplyr::mutate(location = "outlet") %>%
   as.data.frame() %>%
   rbind(df.pomi)
 
