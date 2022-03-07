@@ -27,13 +27,16 @@ read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
                                    sheet = sheet_name, skip = 12,
                                    na = c("","N/A", " "),
                                    col_names = c("model_km", "datetime", "value"),
-                                   col_types = c("numeric","numeric","numeric"))
+                                   col_types = c("numeric","date","numeric"))
 
-  excel.data$datetime <- as.numeric(excel.data$datetime)
-
-  excel.data$datetime <- lubridate::round_date(as.POSIXct((excel.data$datetime * 60 * 60 * 24),
-                                                          origin = "1899-12-30", tz = "UTC"),
-                                               unit = "minute")
+  
+  excel.data$datetime <- lubridate::round_date(excel.data$datetime, unit = "day")
+  
+  excel.data$datetime <- as.numeric(as.Date(excel.data$datetime) -
+                                      as.Date(0, origin = "1899-12-30",
+                                              tz = "UTC"))
+  
+  excel.data$datetime <- excel.data$datetime + (23/24)
 
   # Remove NA rows if there are spaces between each date
   excel.data <- excel.data[complete.cases(excel.data),]
