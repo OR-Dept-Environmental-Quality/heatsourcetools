@@ -31,10 +31,10 @@ String format. NA for Heat Source 8-9. Default is NA. The
 when reading the 'Main Menu' or 'Output - Hydraulics' worksheets
 See details for more information.}
 
-\item{constituent_name}{The name of the output. String format. Required for
-Heat Source 6 when reading from the (see details). Default is NA.
-If NA, the function will attempt to look up the constituent
-using \code{\link{output_lookup}}.}
+\item{constituent_name}{The name of the output. String format. Required for 
+Heat Source 6 and 7 models when reading Hydraulic outputs 
+(see details). Default is NA. If NA, the function will attempt to 
+look up the constituent using \code{\link{output_lookup}}.}
 
 \item{sim_name}{The name of the model scenario. String format. Default is NA.}
 }
@@ -71,7 +71,7 @@ necessary because these sheets have multiple outputs and the
 constituent name helps the function identify which output to read. In this
 situation use one of the following for \code{constituent_name}:
 \itemize{
-\item 'Flow Rate'
+\item 'Flow' aka Flow Rate
 \item 'Flow Velocity'
 }
 }
