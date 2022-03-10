@@ -92,8 +92,6 @@ write_xlsx(x = df.pomi,
 #-- Plot longitudinal summary for each simulation and difference between them
 
 # set y axis plot limits
-round_any = function(x, accuracy, f = round) {f(x / accuracy) * accuracy}
-
 y <- filter(df.summary, sim == "Change" & constituent == plot_stat)
 ymin <- round_any(min(y$min, na.rm = TRUE), accuracy = 0.5 , f = floor)
 ymax <- round_any(max(y$max, na.rm = TRUE), accuracy = 0.5 , f = ceiling)
