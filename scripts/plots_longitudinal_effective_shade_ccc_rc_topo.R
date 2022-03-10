@@ -9,7 +9,7 @@ library(heatsourcetools)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-library(readxl)
+library(writexl)
 
 # Plot size for word (in)
 h <- 3.5
@@ -37,6 +37,7 @@ sim3_file <- "HS7.Jenny.Crk.TOPO.xlsm"
 sheet_name = "Chart-Shade"
 constituent_name <- "Effective Shade"
 
+# The directory to save plot outputs and the summary xlsx.
 out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
 
 
@@ -67,7 +68,7 @@ df.all <- rbind(sim1, sim2, sim3) %>%
 
 df.change <- df.all %>%
   filter(date %in% plot.date) %>%
-  spread(key = sim, value = value) %>%
+  pivot_wider(names_from = sim, values_from = value) %>%
   mutate(topo_range = get(sim2_name) - get(sim3_name),
          shade_gap = get(sim2_name) - get(sim1_name))
 
@@ -109,7 +110,7 @@ ggsave(file = file.path(out_dir, paste0(name, "_Effective_Shade_", gsub("/","_",
        units = "in")
 
 # Output mean to xlsx
-write_xlsx(df.mean, file = file.path(out_dir, paste0(name,"_Effective_Shade_Mean_",gsub("/","_", plot.date),".xlsx")))
+write_xlsx(df.mean, path = file.path(out_dir, paste0(name,"_Effective_Shade_Mean_",gsub("/","_", plot.date),".xlsx")))
 
 
 
