@@ -76,11 +76,8 @@ df <- preds %>%
   rbind(obs)
 
 
-# set y axis plot limits
-round_any = function(x, accuracy, f = round) {f(x / accuracy) * accuracy}
-
 ymin <- 0
-ymax <- round_any(max(preds$value, na.rm = TRUE), 5, ceiling)
+ymax <- heatsourcetools::round_any(max(preds$value, na.rm = TRUE), 5, ceiling)
 
 xmin <- floor_date(min(preds$datetime), unit = "day")
 xmax <- ceiling_date(max(preds$datetime), unit = "day")
