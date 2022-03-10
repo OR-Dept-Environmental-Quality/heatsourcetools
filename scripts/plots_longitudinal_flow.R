@@ -9,18 +9,31 @@ library(tidyr)
 library(lubridate)
 library(ggplot2)
 
+
+# Plot size for word (in)
+h <- 3.5
+w <- 6.75
+
+# Plot size for ppt (in)
+#h <- 5
+#w <- 10
+
+# Name to use on the output plot
 out_name <- "Jenny_01_CCC"
 
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+# The directory to save the plot output
+out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/"
 
-# import data
+# directory to the model files
 sim_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
 obs_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
 
 sim_file <- "HS7.Jenny.Crk.CCCdx200.xlsm"
 obs_file <- "Jenny_Creek_observed_data.xlsx"
 
+# The flow monitoring location IDs from the obs_file to compare to the model flows
 obs_mlocs <- c("BXON", "BXOS", "JNYM", "LWRX")
+
 
 df.preds <- read.hs.outputs(output_dir = sim_dir, file_name = sim_file,
                             hs_ver = 7, sheet_name = "Output - Hydraulics",
@@ -83,8 +96,8 @@ p.flow <- ggplot(data = df, aes(x = model_km)) +
   ylab("Flow Rate (cfs)") +
   facet_wrap(~date, nrow = length(plot.dates), strip.position = "top")
 
-ggsave(file = file.path(out_dir, paste0(name, "_flow.png")),
+ggsave(file = file.path(out_dir, paste0(out_name, "_flow.png")),
        plot = p.flow,
-       height = 6.75,
-       width = 6.75,
+       height = h,
+       width = w,
        units = "in")
