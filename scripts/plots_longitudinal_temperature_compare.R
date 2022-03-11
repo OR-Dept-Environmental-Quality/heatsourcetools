@@ -93,8 +93,8 @@ write_xlsx(x = df.pomi,
 
 # set y axis plot limits
 y <- filter(df.summary, sim == "Change" & constituent == plot_stat)
-ymin <- round_any(min(y$min, na.rm = TRUE), accuracy = 0.5 , f = floor)
-ymax <- round_any(max(y$max, na.rm = TRUE), accuracy = 0.5 , f = ceiling)
+ymin <- heatsourcetools::round_any(min(y$min, na.rm = TRUE), accuracy = 0.5 , f = floor)
+ymax <- heatsourcetools::round_any(max(y$max, na.rm = TRUE), accuracy = 0.5 , f = ceiling)
 rm(y)
 
 # longitudinal plot of dT summary
