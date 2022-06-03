@@ -1,4 +1,5 @@
 package.R
+tests.R
 
 # History files
 .Rhistory
