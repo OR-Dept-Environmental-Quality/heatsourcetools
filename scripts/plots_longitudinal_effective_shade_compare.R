@@ -1,7 +1,7 @@
 
 #---------------------------------------------------------------------------------------
-# Import heat source effective shade output from two scenarios. Plot the 
-# absolute results, the difference (sim2 - sim1), and calculate summary stats and output as an xlsx.
+# Imports heat source effective shade output from two scenarios. Plots the 
+# absolute results, the difference (sim2 - sim1), and calculates summary stats and output as an xlsx.
 #---------------------------------------------------------------------------------------
 
 library(heatsourcetools)
@@ -23,14 +23,14 @@ out_name <- "CCC-RC"
 name <- "Jenny Creek"
 
 # The directory to save plot outputs and the summary xlsx.
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
+out_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
 
 sim1_name <- "Current Condition"
-sim1_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC"
+sim1_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC"
 sim1_file <- "HS7.Jenny.Crk.CCC.xlsm"
 
 sim2_name <- "Restored Vegetation"
-sim2_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/2_VEG"
+sim2_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/2_VEG"
 sim2_file <- "HS7.Jenny.Crk.VEG.xlsm"
 
 sheet_name = "Chart-Shade"

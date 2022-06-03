@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------
 # Import heat source hourly temperature outputs from two simulations,
-# calculate 7DADM, calculate the change, and plot longitudinal data
+# calculate 7DADM, calculate the change (sim2 - sim1), and plot change in 7DADM (min, median, max)
 #---------------------------------------------------------------------------------------
 
 library(heatsourcetools)
@@ -10,33 +10,40 @@ library(lubridate)
 library(ggplot2)
 library(writexl)
 
-bbnc <- 20
+# Plot size for word (in)
+h <- 3.5
+w <- 6.75
 
-out_name <- "Jenny_01_CCC"
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+# Plot size for ppt (in)
+#h <- 5
+#w <- 10
 
-# Name that goes on plot
-sim1_name <- "Jenny Creek hs7"
-sim2_name <- "Jenny Creek hs9"
+# File name for output plot
+out_name <- "Jenny_02_Change"
 
-sim1_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
-sim2_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs9/outputs"
+# The directory to save the plot output
+out_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/"
 
-sim1_file <- "HS7.Jenny.Crk.CCC.xlsm"
-sim2_file <- "Temp_H2O.csv"
+sim1_name <- "Restored Vegetation"
+sim1_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/2_VEG"
+sim1_file <- "HS7.Jenny.Crk.VEG.xlsm"
+
+sim2_name <- "Current Condition"
+sim2_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC"
+sim2_file <- "HS7.Jenny.Crk.CCC.xlsm"
 
 # Either "7DADM Temperature" or "Daily Maximum Temperature"
-plot_stat <- "Daily Maximum Temperature"
+plot_stat <- "7DADM Temperature"
 
 plot.sims <- c(sim1_name, sim2_name)
 
 df.sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim1_file,
                             hs_ver = 7, sheet_name = "Output - Temperature",
-                            sim_name = "sim1")
+                            sim_name = sim1_name)
 
 df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
-                           hs_ver = 9, sheet_name = NA,
-                           sim_name = "sim2")
+                           hs_ver = 7, sheet_name = "Output - Temperature",
+                           sim_name = sim2_name)
 
 
 #--  Read temps and calc 7dadm ------------------------------------
@@ -46,7 +53,8 @@ data2 <- calc_7dadm(df.sim2)
 
 df <- rbind(data1, data2) %>%
   pivot_wider(names_from = "sim", values_from = "value") %>%
-  drop_na(sim1, sim2) %>%
+  drop_na(!!sim1_name, !!sim2_name) %>%
+  rename(sim1 = !!sim1_name, sim2 = !!sim2_name) %>%
   mutate(Change = sim2 - sim1) %>%
   pivot_longer(cols = all_of(c("sim1", "sim2", "Change")), names_to = "sim", values_to = "value") %>%
   mutate(sim = case_when(sim == "sim1" ~ sim1_name,
@@ -124,7 +132,7 @@ p.dT
 
 ggsave(file = file.path(out_dir, paste0(out_name,"_dT_7DADM.png")),
        plot = p.dT,
-       height = 3,
-       width = 6.75,
+       height = h,
+       width = w,
        units = "in")
 
