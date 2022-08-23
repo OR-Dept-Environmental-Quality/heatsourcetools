@@ -48,7 +48,7 @@
 #'        format 'YYYY/MM/DD'.
 #'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
 #'        format 'HH24:MM'.
-#'  \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
+#'  \item Activity.Start.End.Time.Zone: Character timezone (e.g. PDT or PST).
 #'  \item Characteristic.Name: Characteristic name used in AWQMS.
 #'        (e.g. 'Temperature, water', 'Flow')
 #'  \item Result.Value: Measured characteristic result value.
@@ -88,7 +88,7 @@ read.obs <- function(obs_dir, file_name) {
                 "GNIS_Name", "model_km")
 
  result_cols <- c("Monitoring.Location.ID", "Activity.Start.Date",
-                  "Activity.Start.Time", "Activity.Start.End.Time Zone",
+                  "Activity.Start.Time", "Activity.Start.End.Time.Zone",
                   "Characteristic.Name",	"Result.Value",	"Result.Unit")
 
   if (nrow(mlocs) == 0) {

@@ -62,7 +62,7 @@ Required 'TIR' worksheet columns:
        format 'YYYY/MM/DD'.
  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
        format 'HH24:MM'.
- \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
+ \item Activity.Start.End.Time.Zone: Character timezone (e.g. PDT or PST).
  \item Characteristic.Name: Characteristic name used in AWQMS.
        (e.g. 'Temperature, water', 'Flow')
  \item Result.Value: Measured characteristic result value.
