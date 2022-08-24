@@ -4,7 +4,7 @@
 ## Install
 
 ```R
-devtools::install_github("DEQrmichie/heatsourcetools", host = "https://api.github.com", 
+devtools::install_github("OR-Dept-Environmental-Quality/heatsourcetools", host = "https://api.github.com", 
                          dependencies = TRUE, force = TRUE, upgrade = "never")
 ```
 ## Example
