@@ -50,6 +50,7 @@ output_lookup <- function(name=NA, hs_ver=9) {
                      "Heat_Conv" = c("Convection Flux", "watts/square meter"),
                      "Heat_Evap" = c("Evaporation Flux", "watts/square meter"),
                      "Rate_Evap" = c("Evaporation Rate", "mm/hour"),
+                     "SolarBlock" = c("Solar Radiation Flux blocked by Land Cover", "watts/square meter"),
                      "Temp_H20" = c("Temperature, water", "deg C"),
                      "Temp_H2O" = c("Temperature, water", "deg C"),
                      "Temp_Sed" = c("Temperature, sediment", "deg C"),

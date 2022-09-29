@@ -28,7 +28,6 @@ This function reads the following output files:
 \item Heat_SR1
 \item Heat_SR2
 \item Heat_SR3
-\item Heat_SR3b
 \item Heat_SR4
 \item Heat_SR5
 \item Shade
@@ -46,6 +45,7 @@ This function reads the following output files:
 \item Heat_Conv
 \item Heat_Evap
 \item Rate_Evap
+\item SolarBlock
 \item Temp_H2O
 \item Temp_Sed
 \item Hyd_Disp

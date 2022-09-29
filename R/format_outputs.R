@@ -6,10 +6,12 @@
 #' Output column names include:
 #'  \itemize{
 #'  \item sim: Character value of the model scenario simulation name or other description.
-#'  \item constituent: Character value of the constituent (e.g. Temperature).
+#'  \item constituent: Character value of the constituent (e.g.
+#'        'Temperature, water').
 #'  \item datetime: POSIXct datetime.
 #'  \item date: Character date in format "mm/dd/YYYY".
 #'  \item model_km: numeric stream kilometer extracted from the model.
+#'  \item sample: land cover sample. Only returned if reading 'SolarBlock' or 'Heat_SR3b'.
 #'  \item value: Constituent value.
 #'  }
 #'
@@ -41,8 +43,22 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
   df$sim <- sim_name
 
   # Convert data from wide to long (tidyr)
-  df.long <- tidyr::pivot_longer(df, cols = starts_with(c("X", c(0:9))),
-                                 names_to = "model_km", values_to = "value")
+  
+  if (name %in% c("SolarBlock", "Heat_SR3b")) {
+    
+    df.long <- dplyr::rename(df, any_of( c("diffuse" = "diffuse_blocked",
+                                       "diffuse" = "Diffuse_Blocked",
+                                       "model_km" = "rKM", "model_km" = "STREAM_KM"))) %>%
+      tidyr::pivot_longer(cols = starts_with(c("Veg", "LC", "diffuse")),
+                          names_to = "sample", values_to = "value")
+    
+  } else {
+    
+    df.long <- tidyr::pivot_longer(df, cols = starts_with(c("X", c(0:9))),
+                                   names_to = "model_km", values_to = "value")
+  }
+  
+
 
   df.long$model_km <- as.numeric(gsub(pattern = "X", replacement = "",
                                        df.long$model_km,
@@ -67,7 +83,9 @@ format_outputs <- function(df, hs_ver = 9, name = NA,
 
   df.long$date <- format(df.long$datetime, "%m/%d/%Y")
 
-  df.long <- df.long[, c("sim", "constituent", "datetime", "date", "model_km", "value")]
+  df.long <- df.long %>%
+    dplyr::select(dplyr::any_of(c("sim", "constituent", "datetime", "date", 
+                                  "model_km", "sample", "value")))
 
   return(df.long)
 

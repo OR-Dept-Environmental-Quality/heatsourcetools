@@ -32,10 +32,12 @@ is in long format with a consistent structure and column names.
 Output column names include:
 \itemize{
 \item sim: Character value of the model scenario simulation name or other description.
-\item constituent: Character value of the constituent (e.g. Temperature).
+\item constituent: Character value of the constituent (e.g.
+'Temperature, water').
 \item datetime: POSIXct datetime.
 \item date: Character date in format "mm/dd/YYYY".
 \item model_km: numeric stream kilometer extracted from the model.
+\item sample: land cover sample. Only returned if reading 'SolarBlock' or 'Heat_SR3b'.
 \item value: Constituent value.
 }
 

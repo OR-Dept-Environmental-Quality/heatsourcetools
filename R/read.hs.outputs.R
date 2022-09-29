@@ -11,6 +11,7 @@
 #'  \item datetime: POSIXct datetime.
 #'  \item date: Character date in format "mm/dd/YYYY".
 #'  \item model_km: numeric stream kilometer extracted from the model.
+#'  \item sample: land cover sample. Only returned if reading 'SolarBlock' or 'Heat_SR3b'.
 #'  \item value: Constituent value.
 #'  }
 #'
