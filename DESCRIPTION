@@ -1,13 +1,16 @@
 Package: heatsourcetools
-Type: Package
 Title: Heat Source Model Post Processing Tools
 Version: 0.3.4
-Author: c(person(given = "Ryan",
+Authors@R: 
+    c(person(given = "Ryan",
            family = "Michie",
            role = c("aut", "cre"),
-           email = "Ryan.Michie@deq.oregon.gov"),
-Maintainer: Ryan Michie <Ryan.Michie@deq.oregon.gov>
+           email = "Ryan.Michie@deq.oregon.gov"))
 Description: R package to assist post processing of heat source models.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
 Imports:
     cellranger (>= 1.1.0),
     dplyr (>= 0.8.3),
@@ -17,7 +20,3 @@ Imports:
     readxl (>= 1.2.0),
     tidyr (>= 1.0.0),
     zoo (>= 1.8-9),
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.2
