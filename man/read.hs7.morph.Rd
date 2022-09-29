@@ -3,8 +3,8 @@
 \name{read.hs7.morph}
 \alias{read.hs7.morph}
 \title{Read Heat Source 7 morphology.
-Read inputs from the morphology worksheet in a Heat Source version 7 model. 
-The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in 
+Read inputs from the morphology worksheet in a Heat Source version 7 model.
+The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in
 .xls do not seem to work.}
 \usage{
 read.hs7.morph(output_dir, file_name, sheet_name = "Morphology Data")
@@ -24,8 +24,8 @@ dataframe
 }
 \description{
 Read Heat Source 7 morphology.
-Read inputs from the morphology worksheet in a Heat Source version 7 model. 
-The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in 
+Read inputs from the morphology worksheet in a Heat Source version 7 model.
+The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in
 .xls do not seem to work.
 }
 \keyword{7}

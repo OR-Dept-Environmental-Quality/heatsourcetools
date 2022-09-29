@@ -19,54 +19,54 @@ setup using a similar format as DEQ's AWQMS data submission templates.
 \details{
 The workbook must contain two worksheets named:
 \itemize{
- \item Monitoring_Locations
- \item Results
- }
+\item Monitoring_Locations
+\item Results
+}
 And an optional worksheet for TIR data named:
 \itemize{
- \item TIR
- }
+\item TIR
+}
 
 The worksheets must contain the columns identified in the lists below.
 Additional columns can be included but will not be used by the function.
 
 Required 'Monitoring_Locations' worksheet columns
 \itemize{
- \item Monitoring.Location.ID: Character value of the monitoring location ID.
- \item GNIS_Name: Character name of the waterbody.
- \item model_km: Numeric model stream kilometer corresponding to the location
-                 of the monitoring site
- }
+\item Monitoring.Location.ID: Character value of the monitoring location ID.
+\item GNIS_Name: Character name of the waterbody.
+\item model_km: Numeric model stream kilometer corresponding to the location
+of the monitoring site
+}
 
 Required 'Results' worksheet columns:
- \itemize{
- \item Monitoring.Location.ID: Character value of the monitoring location ID.
- \item Activity.Start.Date: Date of sample. Formatted as an excel date in the
-       format 'YYYY/MM/DD'.
- \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
-       format 'HH24:MM'.
- \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
- \item Characteristic.Name: Characteristic name used in AWQMS.
-       (e.g. 'Temperature, water', 'Flow')
- \item Result.Value: Measured characteristic result value.
- \item Result.Unit: Units for measured characteristic result. Same as what is
-       used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
- }
+\itemize{
+\item Monitoring.Location.ID: Character value of the monitoring location ID.
+\item Activity.Start.Date: Date of sample. Formatted as an excel date in the
+format 'YYYY/MM/DD'.
+\item Activity.Start.Time: Time of sample. Formatted as an excel date in the
+format 'HH24:MM'.
+\item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
+\item Characteristic.Name: Characteristic name used in AWQMS.
+(e.g. 'Temperature, water', 'Flow')
+\item Result.Value: Measured characteristic result value.
+\item Result.Unit: Units for measured characteristic result. Same as what is
+used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
+}
 
 Required 'TIR' worksheet columns:
- \itemize{
- \item Monitoring.Location.ID: Character value of the monitoring location ID.
- \item model_km: Numeric model stream kilometer corresponding to the location
-       of the monitoring site
- \item Activity.Start.Date: Date of sample. Formatted as an excel date in the
-       format 'YYYY/MM/DD'.
- \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
-       format 'HH24:MM'.
- \item Activity.Start.End.Time.Zone: Character timezone (e.g. PDT or PST).
- \item Characteristic.Name: Characteristic name used in AWQMS.
-       (e.g. 'Temperature, water', 'Flow')
- \item Result.Value: Measured characteristic result value.
- \item Result.Unit: Units for measured characteristic result. Same as what is
-       used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
- }
+\itemize{
+\item Monitoring.Location.ID: Character value of the monitoring location ID.
+\item model_km: Numeric model stream kilometer corresponding to the location
+of the monitoring site
+\item Activity.Start.Date: Date of sample. Formatted as an excel date in the
+format 'YYYY/MM/DD'.
+\item Activity.Start.Time: Time of sample. Formatted as an excel date in the
+format 'HH24:MM'.
+\item Activity.Start.End.Time.Zone: Character timezone (e.g. PDT or PST).
+\item Characteristic.Name: Characteristic name used in AWQMS.
+(e.g. 'Temperature, water', 'Flow')
+\item Result.Value: Measured characteristic result value.
+\item Result.Unit: Units for measured characteristic result. Same as what is
+used in AWQMS. (e.g. 'deg C', 'm3/sec', 'm')
+}
 }

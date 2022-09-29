@@ -29,17 +29,17 @@ have syntactically valid column names. The datetime is the first column and
 is formatted in excel numeric date format.
 
 This function reads the following output sheets:
- \itemize{
- \item Output - Solar Potential
- \item Output - Solar Surface
- \item Output - Solar Received
- \item Output - Conduction
- \item Output - Longwave
- \item Output - Convection
- \item Output - Evaporation
- \item Output - Total Heat
- \item Output - Evaporation Rate
- \item Output - Temperature
+\itemize{
+\item Output - Solar Potential
+\item Output - Solar Surface
+\item Output - Solar Received
+\item Output - Conduction
+\item Output - Longwave
+\item Output - Convection
+\item Output - Evaporation
+\item Output - Total Heat
+\item Output - Evaporation Rate
+\item Output - Temperature
 }
 To read heat source 7 effective shade outputs use \code{\link{read.hs7.shade}}.
 }

@@ -8,24 +8,24 @@ calc_gof(preds, obs, tolerance = 60)
 }
 \arguments{
 \item{preds}{Data frame of model prediction results. The \code{preds} data
-      frame must include the following columns:
+frame must include the following columns:
 \itemize{
 \item Monitoring.Location.ID: Character value of the \code{obs} monitoring
-      location ID
+location ID
 \item constituent: Character value of the constituent (e.g. 'Temperature,
-      water').
+water').
 \item datetime: POSIXct datetime.
 \item model_km: numeric model stream kilometer
 \item value: Constituent value.
 }}
 
 \item{obs}{Data frame of field observation results. The \code{obs} data
-      frame must include the following columns:
+frame must include the following columns:
 \itemize{
 \item Monitoring.Location.ID: Character value of the \code{obs} monitoring
-      location ID
+location ID
 \item constituent: Character value of the constituent (e.g. 'Temperature,
-      water').
+water').
 \item datetime: POSIXct datetime.
 \item model_km: numeric model stream kilometer
 \item value: Constituent value.
@@ -33,7 +33,7 @@ calc_gof(preds, obs, tolerance = 60)
 
 \item{tolerance}{The maximum number of minutes allowed between the datetimes
 in \code{preds} and \code{obs} to establish a match. If the difference
-exceeds the tolerance the prediction is not include in the goodness
+exceeds the tolerance the prediction is not included in the goodness
 of fit stats. The tolerance cannot be greater than 1440 minutes
 (1 day). The default tolerance is 30 minutes.}
 }
@@ -55,6 +55,6 @@ at each monitoring location are also included (n).
 }
 \seealso{
 \code{\link[hydroGOF]{me}}, \code{\link[hydroGOF]{mae}},
-         \code{\link[hydroGOF]{rmse}}, \code{\link[hydroGOF]{NSE}},
-         \code{\link[base]{cor}}
+\code{\link[hydroGOF]{rmse}}, \code{\link[hydroGOF]{NSE}},
+\code{\link[base]{cor}}
 }

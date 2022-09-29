@@ -30,14 +30,14 @@ is in long format with a consistent structure and column names.
 }
 \details{
 Output column names include:
- \itemize{
- \item sim: Character value of the model scenario simulation name or other description.
- \item constituent: Character value of the constituent (e.g. Temperature).
- \item datetime: POSIXct datetime.
- \item date: Character date in format "mm/dd/YYYY".
- \item model_km: numeric stream kilometer extracted from the model.
- \item value: Constituent value.
- }
+\itemize{
+\item sim: Character value of the model scenario simulation name or other description.
+\item constituent: Character value of the constituent (e.g. Temperature).
+\item datetime: POSIXct datetime.
+\item date: Character date in format "mm/dd/YYYY".
+\item model_km: numeric stream kilometer extracted from the model.
+\item value: Constituent value.
+}
 
 Heat Source 6 long distances are converted to stream kilometer with the most
 downstream long distance = stream kilometer 0.

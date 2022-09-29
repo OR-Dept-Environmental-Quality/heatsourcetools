@@ -3,8 +3,8 @@
 \name{read.hs7.lccodes}
 \alias{read.hs7.lccodes}
 \title{Read Heat Source 7 land cover codes.
-Read inputs from the land cover code worksheet in a Heat Source version 7 model. 
-The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in 
+Read inputs from the land cover code worksheet in a Heat Source version 7 model.
+The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in
 .xls do not seem to work.}
 \usage{
 read.hs7.lccodes(output_dir, file_name, sheet_name = "Land Cover Codes")
@@ -24,8 +24,8 @@ dataframe
 }
 \description{
 Read Heat Source 7 land cover codes.
-Read inputs from the land cover code worksheet in a Heat Source version 7 model. 
-The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in 
+Read inputs from the land cover code worksheet in a Heat Source version 7 model.
+The Heat Source excel workbook needs to be saved as .xlsm. Workbooks in
 .xls do not seem to work.
 }
 \keyword{7}

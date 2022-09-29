@@ -36,7 +36,7 @@
 #'  }
 #' @param tolerance The maximum number of minutes allowed between the datetimes
 #'        in \code{preds} and \code{obs} to establish a match. If the difference
-#'        exceeds the tolerance the prediction is not include in the goodness
+#'        exceeds the tolerance the prediction is not included in the goodness
 #'        of fit stats. The tolerance cannot be greater than 1440 minutes
 #'        (1 day). The default tolerance is 30 minutes.
 #' @seealso \code{\link[hydroGOF]{me}}, \code{\link[hydroGOF]{mae}},

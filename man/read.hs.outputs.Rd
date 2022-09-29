@@ -31,9 +31,9 @@ String format. NA for Heat Source 8-9. Default is NA. The
 when reading the 'Main Menu' or 'Output - Hydraulics' worksheets
 See details for more information.}
 
-\item{constituent_name}{The name of the output. String format. Required for 
-Heat Source 6 and 7 models when reading Hydraulic outputs 
-(see details). Default is NA. If NA, the function will attempt to 
+\item{constituent_name}{The name of the output. String format. Required for
+Heat Source 6 and 7 models when reading Hydraulic outputs
+(see details). Default is NA. If NA, the function will attempt to
 look up the constituent using \code{\link{output_lookup}}.}
 
 \item{sim_name}{The name of the model scenario. String format. Default is NA.}
@@ -46,15 +46,15 @@ Wrapper function to read output from Heat Source version 6-9.
 Heat Source 6-7 excel workbook needs to be saved as .xlsm. Workbooks in .xls
 do not work. This function calls \code{\link{format_outputs}} so the returned
 data frame has the following columns:
- \itemize{
- \item sim: Character value of the model scenario simulation name or other description.
- \item constituent: Character value of the constituent (e.g.
-       'Temperature, water').
- \item datetime: POSIXct datetime.
- \item date: Character date in format "mm/dd/YYYY".
- \item model_km: numeric stream kilometer extracted from the model.
- \item value: Constituent value.
- }
+\itemize{
+\item sim: Character value of the model scenario simulation name or other description.
+\item constituent: Character value of the constituent (e.g.
+'Temperature, water').
+\item datetime: POSIXct datetime.
+\item date: Character date in format "mm/dd/YYYY".
+\item model_km: numeric stream kilometer extracted from the model.
+\item value: Constituent value.
+}
 }
 \details{
 If you just want the raw import use the specific 'read.hs...' function suited
@@ -77,11 +77,11 @@ situation use one of the following for \code{constituent_name}:
 }
 \seealso{
 \code{\link{read.hs6.temp}}, \code{\link{read.hs6.shade}},
-         \code{\link{read.hs6.flow}}, \code{\link{read.hs6.velocity}},
-         \code{\link{read.hs7.outputs}}, \code{\link{read.hs7.shade}},
-         \code{\link{read.hs7.flow}}, \code{\link{read.hs7.velocity}},
-         \code{\link{read.hs8.outputs}},
-         \code{\link{read.hs9.outputs}}
+\code{\link{read.hs6.flow}}, \code{\link{read.hs6.velocity}},
+\code{\link{read.hs7.outputs}}, \code{\link{read.hs7.shade}},
+\code{\link{read.hs7.flow}}, \code{\link{read.hs7.velocity}},
+\code{\link{read.hs8.outputs}},
+\code{\link{read.hs9.outputs}}
 }
 \keyword{Heat}
 \keyword{Source}

@@ -3,8 +3,8 @@
 \name{read.hs8.landcover}
 \alias{read.hs8.landcover}
 \title{Read Heat Source 8 land cover info.
-Read landcover inputs from the TTools worksheet in a Heat Source version 8 
-model. The Heat Source excel workbook needs to be saved as .xlsm. Workbooks 
+Read landcover inputs from the TTools worksheet in a Heat Source version 8
+model. The Heat Source excel workbook needs to be saved as .xlsm. Workbooks
 in .xls do not seem to work.}
 \usage{
 read.hs8.landcover(output_dir, file_name, sheet_name = "TTools Data")
@@ -24,8 +24,8 @@ dataframe
 }
 \description{
 Read Heat Source 8 land cover info.
-Read landcover inputs from the TTools worksheet in a Heat Source version 8 
-model. The Heat Source excel workbook needs to be saved as .xlsm. Workbooks 
+Read landcover inputs from the TTools worksheet in a Heat Source version 8
+model. The Heat Source excel workbook needs to be saved as .xlsm. Workbooks
 in .xls do not seem to work.
 }
 \keyword{8}
