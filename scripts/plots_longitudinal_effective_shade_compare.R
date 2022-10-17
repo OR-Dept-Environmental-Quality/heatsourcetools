@@ -63,9 +63,9 @@ df.diff <- df.all %>%
 
 df.mean <- df.diff %>%
   select(date, model_km, all_of(sim1_name), all_of(sim2_name), shade_difference) %>%
-  mutate(km_length=max(model_km)-min(model_km)) %>%
+  mutate(km_length = max(model_km) - min(model_km)) %>%
   group_by(date, km_length) %>%
-  summarise_at(c(sim1_name, sim2_name, "shade_difference") , mean, na.rm=TRUE)
+  summarise_at(c(sim1_name, sim2_name, "shade_difference") , mean, na.rm = TRUE)
 
 df.plot <- df.diff %>%
   #mutate(shade_difference2 = shade_difference) %>%
@@ -87,7 +87,7 @@ p.es1 <- df.all %>%
                      labels = c(sim1_name, sim2_name)) +
   scale_fill_manual(values = "grey") +
   theme(legend.position = "bottom",
-        legend.title=element_blank(),
+        legend.title = element_blank(),
         panel.background = element_rect(fill = "white", colour = "black"),
         strip.background = element_rect(fill = "white", colour = "black"),
         panel.grid.major = element_blank(),
@@ -104,7 +104,7 @@ p.es2 <- df.diff %>%
   ggplot(aes(x = model_km, y = shade_difference)) +
   geom_line(color = "black", size = 1) +
   theme(legend.position = "bottom",
-        legend.title=element_blank(),
+        legend.title = element_blank(),
         panel.background = element_rect(fill = "white", colour = "black"),
         strip.background = element_rect(fill = "white", colour = "black"),
         panel.grid.major = element_blank(),

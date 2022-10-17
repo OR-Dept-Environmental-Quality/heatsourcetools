@@ -32,9 +32,6 @@ read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   # summing all the fluxes, and returns the data as a dataframe in long format.
   # Simulation name and flux constituents are added as an ID variable.
 
-  library(reshape2)
-  library(lubridate)
-
   # Assign the correct read function based on model version
   if (as.integer(hs_ver) == 7) {
     stop("Reading flux outputs for heat source version 7 has not been implemented yet. Sorry.")
@@ -68,14 +65,14 @@ read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   flux.raw$sim <- sim_name
 
   # Convert data from wide to long
-  flux.l <- melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("stream_km"))
+  flux.l <- reshape2::melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("stream_km"))
   colnames(flux.l) <- c("Datetime","sim", "constituent","Stream_km","value")
 
   flux.l$Stream_km <- as.numeric(gsub(pattern="X", replacement="",
                                       flux.l$Stream_km, ignore.case = FALSE,fixed = FALSE))
 
   # Convert back to wide to sum total flux
-  flux.w  <- reshape(flux.l, timevar="constituent", idvar = c("Stream_km","sim", "Datetime"),
+  flux.w  <- reshape2::reshape(flux.l, timevar="constituent", idvar = c("Stream_km","sim", "Datetime"),
                      direction="wide")
 
   colnames(flux.w) <- c("Datetime","sim", "Stream_km",
@@ -85,10 +82,10 @@ read.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   flux.w$Total <- rowSums(flux.w[,4:8])
 
   # now back to long format
-  flux.l <- melt(flux.w, id.vars =c("Datetime","sim", "Stream_km"))
+  flux.l <- reshape2::melt(flux.w, id.vars =c("Datetime","sim", "Stream_km"))
   colnames(flux.l) <- c("Datetime", "sim", "Stream_km","constituent","value")
 
-  flux.l$Datetime <-round_date(as.POSIXct(( flux.l$Datetime*60*60*24), origin="1899-12-30", tz="GMT"), unit = "minute")
+  flux.l$Datetime <- lubridate::round_date(as.POSIXct(( flux.l$Datetime*60*60*24), origin="1899-12-30", tz="GMT"), unit = "minute")
   flux.l$Date <- format(flux.l$Datetime,"%m/%d/%Y")
   flux.l$hour <-as.integer(format(flux.l$Datetime, "%H"))
 
@@ -100,9 +97,6 @@ read.solar.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   # Reads all the hourly solar flux outputs from heat source, does some formatting, and returns the data as
   # a dataframe in long format.
   # Simulation name and flux constituents are added as an ID variable.
-
-  library(reshape2)
-  library(lubridate)
 
   # Assign the correct read function based on model version and
   # read the data
@@ -157,7 +151,7 @@ read.solar.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   flux.raw$sim <- sim_name
 
   # Convert data from wide to long
-  flux.l <- melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("Stream_km"))
+  flux.l <- reshape2::melt(flux.raw, id.vars =c("Datetime","sim", "constituent"),variable.name=c("Stream_km"))
   colnames(flux.l) <- c("Datetime","sim", "constituent","Stream_km","value")
 
   flux.l$Stream_km <- as.numeric(gsub(pattern="X", replacement="",
@@ -175,7 +169,7 @@ read.solar.flux.outputs <-function(output_dir, sim_name, hs_ver=8) {
   #flux.l <- melt(flux.w, id.vars =c("Datetime","sim", "Stream_km"))
   #colnames(flux.l) <- c("Datetime", "sim", "Stream_km","constituent","value")
 
-  flux.l$Datetime <-round_date(as.POSIXct((flux.l$Datetime*60*60*24), origin="1899-12-30", tz="GMT"), unit = "minute")
+  flux.l$Datetime <-lubridate::round_date(as.POSIXct((flux.l$Datetime*60*60*24), origin="1899-12-30", tz="GMT"), unit = "minute")
   flux.l$Date <- format(flux.l$Datetime,"%m/%d/%Y")
   flux.l$hour <-as.integer(format(flux.l$Datetime, "%H"))
 
@@ -188,9 +182,6 @@ calc.7dadm2 <- function(output_dir, sim_name, hs_ver=9, file_name="Temp_H2O", sh
   # reads the the model hourly temperature output using read.hs.outputs().
   # Function does some formatting, and returns a dataframe of the hourly, daily maximum, and 7DADM temperatures
   # by date in long format. Simulation name and statistics are added as an ID variable.
-
-  library(zoo)
-  library(reshape2)
 
   data.raw <- read.hs.outputs(output_dir=output_dir,
                               file_name=file_name,
@@ -215,10 +206,10 @@ calc.7dadm2 <- function(output_dir, sim_name, hs_ver=9, file_name="Temp_H2O", sh
 
   # Calculate the 7 day max rolling average
   data.max$sdadm <- ave(data.max$max, data.max$Stream_km, FUN =
-                          function(x) rollapply(zoo(x), 7, mean, fill = NA, align = "right"))
+                          function(x) zoo::rollapply(zoo::zoo(x), 7, mean, fill = NA, align = "right"))
 
   # convert to long format
-  data.l <- melt(data.max, id.vars =c("Date","sim","Stream_km"))
+  data.l <- reshape2::melt(data.max, id.vars =c("Date","sim","Stream_km"))
 
   colnames(data.l) <- c("Date","sim","Stream_km","statistic","value")
 

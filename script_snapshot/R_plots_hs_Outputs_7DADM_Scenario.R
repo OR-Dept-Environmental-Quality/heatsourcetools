@@ -2,7 +2,7 @@
 
 #---------------------------------------------------------------------------------------
 # Import heat source hourly temperature outputs from multiple simulations, 
-# calculate min, median, and maximum 7DADM, plot logitudinally.
+# calculate min, median, and maximum 7DADM, plot longitudinally.
 #---------------------------------------------------------------------------------------
 
 library(ggplot2)

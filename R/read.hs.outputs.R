@@ -177,13 +177,14 @@ read.hs.outputs <- function(output_dir, file_name, hs_ver = 9,
   if (as.integer(hs_ver) == 8) {
     data.wide <- read.hs8.outputs(output_dir = output_dir,
                                   file_name = file_name)
-    name <- file_name
+    
+    name <- base_name <- gsub("\\..*","", file_name)
   }
   
   if (as.integer(hs_ver) == 9) {
     data.wide <- read.hs9.outputs(output_dir = output_dir,
                                   file_name = file_name)
-    name <- file_name
+    name <- base_name <- gsub("\\..*","", file_name)
   }
   
   data.final <- format_outputs(df = data.wide, hs_ver = hs_ver,

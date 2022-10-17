@@ -19,8 +19,10 @@ calc_7dadm(
 \item sim (with simulation name in character format),
 \item model_km (as numeric),
 \item value (numeric hourly stream temperature)
-}\preformatted{  These can be generated using the \code{\link{format_outputs}} function.
-}}
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  These can be generated using the \code{\link{format_outputs}} function.
+}\if{html}{\out{</div>}}}
 
 \item{datetime_col}{datetime column name. Default is 'datetime'.}
 
