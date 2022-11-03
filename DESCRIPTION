@@ -1,7 +1,7 @@
 Package: heatsourcetools
 Type: Package
 Title: Heat Source Model Post Processing Tools
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: 
     c(person(given = "Ryan",
            family = "Michie",
@@ -19,5 +19,7 @@ Imports:
     lubridate (>= 1.7),
     magrittr (>= 2.0.1),
     readxl (>= 1.2.0),
+    sp (>= 1.4-5),
+    stringr (>= 1.4.0),
     tidyr (>= 1.0.0),
     zoo (>= 1.8-9),
