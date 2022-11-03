@@ -14,6 +14,7 @@ lcdata_buffer(
   lccode_L,
   lccode_R,
   lccode_noveg,
+  lccode_stream,
   trans_dir = c(45, 90, 135, 180, 225, 270, 315, 360),
   transsample_count,
   transsample_distance
@@ -39,7 +40,10 @@ This distance is about the same as the active channel width. Can take a vector o
 
 \item{lccode_noveg}{The numeric land cover code to use for samples that fall outside the vegetated buffer. Do not use zero.}
 
-\item{trans_dir}{A vector of integer values corresponding to the specific azimuth directions of the sample transects. Default is Heat Source 9 directions = c(45, 90, 135, 180, 225, 270, 315, 360)}
+\item{lccode_stream}{The numeric land cover code to use for samples that fall on the stream. Do not use zero.}
+
+\item{trans_dir}{A vector of integer values corresponding to the specific azimuth
+directions of the sample transects. Default is Heat Source 9 directions = c(45, 90, 135, 180, 225, 270, 315, 360)}
 
 \item{transsample_count}{Number of samples per transect. The number does not include the sample at the stream node.}
 

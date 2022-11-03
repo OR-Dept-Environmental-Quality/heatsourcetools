@@ -18,7 +18,9 @@
 #' @param lccode_L The numeric land cover code to use for samples that fall inside the vegetated buffer on the left bank. Do not use zero.
 #' @param lccode_R The numeric land cover code to use for samples that fall inside the vegetated buffer on the right bank. Do not use zero.
 #' @param lccode_noveg The numeric land cover code to use for samples that fall outside the vegetated buffer. Do not use zero.
-#' @param trans_dir A vector of integer values corresponding to the specific azimuth directions of the sample transects. Default is Heat Source 9 directions = c(45, 90, 135, 180, 225, 270, 315, 360)
+#' @param lccode_stream The numeric land cover code to use for samples that fall on the stream. Do not use zero.
+#' @param trans_dir A vector of integer values corresponding to the specific azimuth 
+#'  directions of the sample transects. Default is Heat Source 9 directions = c(45, 90, 135, 180, 225, 270, 315, 360)
 #' @param transsample_count Number of samples per transect. The number does not include the sample at the stream node.
 #' @param transsample_distance The distance between transect samples (meters).
 #' @export
@@ -27,7 +29,7 @@
 
 lcdata_buffer <- function(node_id = NA_real_, stream_id = NA_character_, 
                           aspect, skygap, vegwd_L, vegwd_R, 
-                          lccode_L, lccode_R, lccode_noveg, 
+                          lccode_L, lccode_R, lccode_noveg, lccode_stream,
                           trans_dir = c(45, 90, 135, 180, 225, 270, 315, 360), 
                           transsample_count, transsample_distance) {
   
