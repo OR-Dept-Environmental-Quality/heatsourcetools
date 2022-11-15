@@ -104,7 +104,7 @@ lcdata_buffer <- function(node_id = NA_real_, stream_id = NA_character_,
                   vegsam_x = sample * transsample_distance * sin(trans_dir * pi/180) + node_x,
                   vegsam_y = sample * transsample_distance * cos(trans_dir * pi/180) + node_y)
   
-  rm(dummy1, dummy2, lc_key)
+  rm(dummy1, dummy2)
   
   ## Construct Stream polygon
   rec <- expand.grid(seq(1, 4), stmcombos$aspect, stringsAsFactors = FALSE)
