@@ -162,14 +162,7 @@ lcdata_buffer <- function(node_id = NA_real_, stream_id = NA_character_,
   # replace 0  with no veg code
   lccodes <- dplyr::if_else(lccodes == 0, lccode_noveg, lccodes)
 
-
   # Combine it all in the same dataframe
-  aspstm <- seq(stmcombos$aspect, stmcombos$aspect, length.out = nrow(node_samples))
-  skygap <- seq(stmcombos$skygap, stmcombos$skygap, length.out = nrow(node_samples))
-  vegwd_L <- seq(stmcombos$vegwd_L, stmcombos$vegwd_L, length.out = nrow(node_samples))
-  vegwd_R <- seq(stmcombos$vegwd_R, stmcombos$vegwd_R, length.out = nrow(node_samples))
-  ttools <- cbind(node_samples, lccodes, aspstm, skygap, vegwd_L, vegwd_R)
-  
   ttools <- node_samples %>%
     cbind(lccodes) %>%
     dplyr::mutate(stream_id = stream_id,
