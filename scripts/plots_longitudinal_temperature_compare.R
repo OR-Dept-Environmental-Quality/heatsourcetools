@@ -1,6 +1,7 @@
 #---------------------------------------------------------------------------------------
 # Import heat source hourly temperature outputs from two simulations,
-# calculate 7DADM, calculate the change (sim2 - sim1), and plot change in 7DADM (min, median, max)
+# Calculate 7DADM, calculate the change (sim2 - sim1), and plot the maximum change in 7DADM
+# when sim2 is >= the temperature WQS.
 #---------------------------------------------------------------------------------------
 
 library(heatsourcetools)
@@ -21,6 +22,8 @@ w <- 6.75
 # File name for output plot
 out_name <- "Jenny_02_Change"
 
+HUA_allocation <- 0.10
+
 # The directory to save the plot output
 out_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/"
 
@@ -31,6 +34,10 @@ sim1_file <- "HS7.Jenny.Crk.VEG.xlsm"
 sim2_name <- "Current Condition"
 sim2_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC"
 sim2_file <- "HS7.Jenny.Crk.CCC.xlsm"
+
+# Used for Oregon temperature WQS/HUA attainment assessment. 
+# Need to filter out days that attain criteria (sim2 <= BBNC)
+sim3_name <- "BBNC"
 
 # Either "7DADM Temperature" or "Daily Maximum Temperature"
 plot_stat <- "7DADM Temperature"
@@ -51,12 +58,21 @@ df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
 data1 <- calc_7dadm(df.sim1)
 data2 <- calc_7dadm(df.sim2)
 
-df <- rbind(data1, data2) %>%
+# This builds a dataframe of when and where the BBNC apply. 
+# Need to modify as necessary for the specific model location and temperature WQS.
+data3 <- data1 %>%
+  mutate(value = case_when(model_km <= 42.25 ~ 18.0,
+                           model_km > 42.25 & datetime >= mdy_hms("8/15/2016 00:00:00") ~ 13.0,
+                           TRUE ~ 16.0),
+         sim = sim3_name)
+
+df <- rbind(data1, data2, data3) %>%
   pivot_wider(names_from = "sim", values_from = "value") %>%
-  drop_na(!!sim1_name, !!sim2_name) %>%
+  drop_na(!!sim1_name, !!sim2_name, !!sim3_name) %>%
   rename(sim1 = !!sim1_name, sim2 = !!sim2_name) %>%
-  mutate(Change = sim2 - sim1) %>%
-  pivot_longer(cols = all_of(c("sim1", "sim2", "Change")), names_to = "sim", values_to = "value") %>%
+  mutate(Change = if_else(sim2 >= BBNC, sim2 - sim1, NA_real_)) %>%
+  pivot_longer(cols = all_of(c("sim1", "sim2", "BBNC", "Change")), 
+               names_to = "sim", values_to = "value") %>%
   mutate(sim = case_when(sim == "sim1" ~ sim1_name,
                          sim == "sim2" ~ sim2_name,
                          TRUE ~ sim))
@@ -68,10 +84,9 @@ rm(data1, data2)
 # Calc max, median, and min
 df.summary <- df %>%
   group_by(constituent, model_km, sim) %>%
-  summarise(min = min(value, na.rm = TRUE),
-            median = median(value, na.rm = TRUE),
-            max = max(value, na.rm = TRUE),
-            range = max - min)
+  summarise(p95 = quantile(value, probs = c(.95), na.rm = TRUE),
+            min = min(value, na.rm = TRUE),
+            max = max(value, na.rm = TRUE))
 
 # Point of Maximum Impact
 df.pomi <- df %>%
@@ -106,27 +121,25 @@ ymax <- heatsourcetools::round_any(max(y$max, na.rm = TRUE), accuracy = 0.5 , f 
 rm(y)
 
 # longitudinal plot of dT summary
-
 p.dT <- df.summary %>%
   filter(sim == "Change" & constituent == plot_stat) %>%
   ggplot(aes(x = model_km)) +
-  geom_ribbon(aes(ymax = max, ymin = min, fill = "Range"), alpha = 0.6) +
-  geom_line(aes(y = median, linetype = "Median Change")) +
-  geom_line(aes(y = 0.3, linetype = "HUA")) +
-  scale_linetype_manual(values = c("Median Change" = "solid",
-                                   "HUA allocation" = "dashed")) +
-  scale_fill_manual(values = "darkgrey") +
+  geom_line(aes(y = max, linetype = "Maximum change")) +
+  geom_line(aes(y = HUA_allocation, linetype = "HUA Allocation")) +
+  scale_linetype_manual(values = c("Maximum change" = "solid", 
+                                   "HUA Allocation" = "dashed")) +
   theme(legend.position = "bottom",
         legend.title = element_blank(),
         legend.key = element_blank(),
         panel.background = element_rect(fill = "white", colour = "black"),
         strip.background = element_rect(fill = "white", colour = "black"),
         panel.grid.major = element_line(colour = "lightgrey"),
-        plot.title = element_text(size = 12, hjust = 0.5)) +
+        plot.title = element_text(size = 12, hjust = 0.5),
+        text = element_text(size = 10, family = "sans")) +
   xlab("Model Stream Kilometer") +
   ylab("Change 7DADM (deg-C)") +
   ylim(ymin, ymax) +
-  xlim(0, NA)
+  scale_x_reverse(limits = c(NA, 0))
 
 p.dT
 
