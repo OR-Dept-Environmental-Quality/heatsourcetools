@@ -91,7 +91,8 @@ p.flow <- ggplot(data = df, aes(x = model_km)) +
         plot.title = element_text(size = 12, hjust = 0.5)) +
   xlab("Model Stream Kilometer") +
   ylab("Flow Rate (cfs)") +
-  facet_wrap(~date, nrow = length(plot.dates), strip.position = "top")
+  facet_wrap(~date, nrow = length(plot.dates), strip.position = "top") +
+  scale_x_reverse(limits = c(NA, 0))
 
 ggsave(file = file.path(out_dir, paste0(out_name, "_flow.png")),
        plot = p.flow,

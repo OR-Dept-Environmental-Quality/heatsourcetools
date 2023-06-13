@@ -100,7 +100,8 @@ p.es <- df.all %>%
   xlab("Model Kilometer") +
   ylab("Effective Shade %") + 
   ylim(0, 100) +
-  facet_wrap(~date)
+  facet_wrap(~date) +
+  scale_x_reverse(limits = c(NA, 0))
 p.es
 
 ggsave(file = file.path(out_dir, paste0(name, "_Effective_Shade_", gsub("/","_", plot.date),".png")),
