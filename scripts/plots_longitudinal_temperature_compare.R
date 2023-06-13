@@ -20,19 +20,19 @@ w <- 6.75
 #w <- 10
 
 # File name for output plot
-out_name <- "Jenny_02_Change"
+out_name <- "Jenny_VEG_vs_CCC"
 
 HUA_allocation <- 0.10
 
 # The directory to save the plot output
-out_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/"
+out_dir <- "//path/to/plot/directory"
 
 sim1_name <- "Restored Vegetation"
-sim1_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/2_VEG"
+sim1_dir <- "//path/to/sim1/model/directory"
 sim1_file <- "HS7.Jenny.Crk.VEG.xlsm"
 
 sim2_name <- "Current Condition"
-sim2_dir <- "C:/Users/rmichie/OneDrive - Oregon/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC"
+sim2_dir <- "//path/to/sim2/model/directory"
 sim2_file <- "HS7.Jenny.Crk.CCC.xlsm"
 
 # Used for Oregon temperature WQS/HUA attainment assessment. 
@@ -44,6 +44,7 @@ plot_stat <- "7DADM Temperature"
 
 plot.sims <- c(sim1_name, sim2_name)
 
+# These functions might need to be modified depending on the model version.
 df.sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim1_file,
                             hs_ver = 7, sheet_name = "Output - Temperature",
                             sim_name = sim1_name)
@@ -54,7 +55,6 @@ df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
 
 
 #--  Read temps and calc 7dadm ------------------------------------
-
 data1 <- calc_7dadm(df.sim1)
 data2 <- calc_7dadm(df.sim2)
 
@@ -92,7 +92,7 @@ df.summary <- df %>%
 df.pomi <- df %>%
   dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
-  dplyr::slice(which.max(abs(value))) %>%
+  dplyr::slice(which.max(value)) %>%
   dplyr::mutate(location = "POMI") %>%
   dplyr::filter(sim == "Change") %>%
   as.data.frame()
@@ -102,7 +102,7 @@ df.pomi <- df %>%
   dplyr::filter(model_km == min(model_km)) %>%
   dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
-  dplyr::slice(which.max(abs(value))) %>%
+  dplyr::slice(which.max(value)) %>%
   dplyr::mutate(location = "outlet") %>%
   as.data.frame() %>%
   rbind(df.pomi)
@@ -143,7 +143,7 @@ p.dT <- df.summary %>%
 
 p.dT
 
-ggsave(file = file.path(out_dir, paste0(out_name,"_dT_7DADM.png")),
+ggsave(file = file.path(out_dir, paste0(out_name,"_dT.png")),
        plot = p.dT,
        height = h,
        width = w,
