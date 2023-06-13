@@ -22,11 +22,11 @@ w <- 6.75
 out_name <- "Jenny_01_CCC"
 
 # The directory to save the plot output
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/"
+out_dir <- "//path/to/plot/directory"
 
 # directory to the model files
-sim_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
-obs_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+sim_dir <- "//path/to/sim/model/directory"
+obs_dir <- "//path/to/obs/directory"
 
 sim_file <- "HS7.Jenny.Crk.CCCdx200.xlsm"
 obs_file <- "Jenny_Creek_observed_data.xlsx"
@@ -34,7 +34,7 @@ obs_file <- "Jenny_Creek_observed_data.xlsx"
 # The flow monitoring location IDs from the obs_file to compare to the model flows
 obs_mlocs <- c("BXON", "BXOS", "JNYM", "LWRX")
 
-
+# This function might need to be modified depending on the model version.
 df.preds <- read.hs.outputs(output_dir = sim_dir, file_name = sim_file,
                             hs_ver = 7, sheet_name = "Output - Hydraulics",
                             constituent_name = "Flow Velocity",

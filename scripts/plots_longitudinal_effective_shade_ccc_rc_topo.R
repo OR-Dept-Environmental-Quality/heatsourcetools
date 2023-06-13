@@ -23,25 +23,26 @@ plot.date <- c("07/05/2001")
 name <- "Jenny Creek"
 
 sim1_name <- "Current Condition"
-sim1_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/1_CCC/"
+sim1_dir <- "//path/to/sim1/model/directory"
 sim1_file <- "HS7.Jenny.Crk.CCC.xlsm"
 
 sim2_name <- "Restored Vegetation"
-sim2_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/2_VEG/"
+sim2_dir <- "//path/to/sim2/model/directory"
 sim2_file <- "HS7.Jenny.Crk.VEG.xlsm"
 
 sim3_name <- "Topographic"
-sim3_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7/0_TOPO/"
+sim3_dir <- "//path/to/sim3/model/directory"
 sim3_file <- "HS7.Jenny.Crk.TOPO.xlsm"
 
 sheet_name = "Chart-Shade"
 constituent_name <- "Effective Shade"
 
-# The directory to save plot outputs and the summary xlsx.
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+# The directory to save the plot output
+out_dir <- "//path/to/plot/directory"
 
 
 #--  Read data ------------------------------------
+# These functions might need to be modified depending on the model version.
 
 # Current
 sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim1_file,

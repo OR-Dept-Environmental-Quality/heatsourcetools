@@ -18,23 +18,28 @@ w <- 6.75
 #h <- 5
 #w <- 10
 
-out_name <- "Jenny_01_CCC"
-out_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+# File name for output plot
+out_name <- "Jenny_CCC_vs_Obs"
+
+# The directory to save the plot output
+out_dir <- "//path/to/plot/directory"
 
 sim_name <- "Predictions"
-sim_file <- "HS7.Jenny.Crk.CCCdx200.xlsm"
-sim_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek/hs7"
-
+sim_dir <- "//path/to/sim/model/directory"
+sim_file <- "HS7.Jenny.Crk.CCC.xlsm"
 
 obs_name <- "Observations"
-obs_dir <- "C:/workspace/GitHub/heatsource-9/tests/Jenny_Creek"
+obs_dir <- "//path/to/obs/directory"
 obs_file <- "Jenny_Creek_observed_data.xlsx"
 
 # Stations to compare with model predictions
 obs_mlocs <- c("BXON", "BXOS", "LWRX")
 
-df.preds <- read.hs.outputs(output_dir = sim_dir, file_name = sim_file,
-                            hs_ver = 7, sheet_name = "Output - Temperature",
+# This function might need to be modified depending on the model version.
+df.preds <- read.hs.outputs(output_dir = sim_dir, 
+                            file_name = sim_file,
+                            hs_ver = 7, 
+                            sheet_name = "Output - Temperature",
                             sim_name = sim_name)
 
 # Read obs
@@ -82,8 +87,6 @@ ymax <- heatsourcetools::round_any(max(preds$value, na.rm = TRUE), 5, ceiling)
 xmin <- floor_date(min(preds$datetime), unit = "day")
 xmax <- ceiling_date(max(preds$datetime), unit = "day")
 
-i <- 1
-
 for (i in 1:length(obs.km.lookup$model_km)) {
 
   # The actual model stream kilometer
@@ -95,14 +98,18 @@ for (i in 1:length(obs.km.lookup$model_km)) {
   # Hourly plot model predicted vs observed temperatures
   p1 <- df %>%
     filter(model_km == skm & constituent == "Temperature, water") %>%
-    ggplot(aes(x = datetime, y = value, size = sim,
-               linetype = sim, colour = sim)) +
-    geom_line() +
+    ggplot(aes(x = datetime, y = value, 
+               size = sim,
+               linetype = sim, 
+               color = sim,
+               shape = sim)) +
+    geom_line() + geom_point() + 
     scale_color_manual(values = c("black", "red")) +
     scale_size_manual(values = c(1, 0.5)) +
-    scale_linetype_manual(values = c("solid","solid")) +
+    scale_linetype_manual(values = c(NA, "solid")) +
+    scale_shape_manual(values = c(16, NA)) +
     scale_y_continuous(limits = c(ymin, ymax)) +
-    scale_x_datetime(date_breaks = "7 days", date_labels = "%m-%d-%Y",
+    scale_x_datetime(date_breaks = "5 days", date_labels = "%m-%d-%Y",
                      limits = c(xmin, xmax)) +
     labs(title = p.title,
          subtitle = paste0("Model Kilometer ", skm)) +
@@ -125,13 +132,16 @@ for (i in 1:length(obs.km.lookup$model_km)) {
   # Daily Maximum Temperature
   p2 <- df %>%
     filter(model_km == skm & constituent == "Daily Maximum Temperature") %>%
-    ggplot(aes(x = datetime, y = value, colour = sim, size = sim, 
-               shape = sim, fill = sim)) +
-    geom_point() +
+    ggplot(aes(x = datetime, y = value, 
+               color = sim,
+               size = sim,
+               linetype = sim,
+               shape = sim)) +
+    geom_line() + geom_point() +
     scale_color_manual(values = c("black", "red")) +
-    scale_fill_manual(values = c("black", "red")) +
-    scale_size_manual(values = c(2, 1.5)) +
-    scale_shape_manual(values = c(21, 21)) +
+    scale_size_manual(values = c(1, 0.5)) +
+    scale_linetype_manual(values = c(NA, "solid")) +
+    scale_shape_manual(values = c(16, NA)) +
     scale_y_continuous(limits = c(ymin, ymax)) +
     xlab("Date") +
     scale_x_datetime(date_breaks = "5 days", date_labels = "%m-%d-%Y",

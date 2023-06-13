@@ -96,7 +96,8 @@ p.es1 <- df.all %>%
   xlab("Model Kilometer") +
   ylab("Effective Shade %") + 
   ylim(0, 100) +
-  facet_wrap(~date)
+  facet_wrap(~date) +
+  scale_x_reverse(limits = c(NA, 0))
 p.es1
 
 p.es2 <- df.diff %>%
@@ -112,7 +113,8 @@ p.es2 <- df.diff %>%
   ggtitle(name) +
   xlab("Model Kilometer") +
   ylab("Effective Shade Difference") + 
-  ylim(0, ymax_diff)
+  ylim(0, ymax_diff) +
+  scale_x_reverse(limits = c(NA, 0))
 p.es2
 
 
@@ -121,10 +123,10 @@ p.es3 <- df.plot %>%
   filter(date %in% plot.date) %>%
   ggplot(aes(x = model_km)) +
   geom_line(aes(y = value, color = sim), size = 1) +
-  geom_ribbon(data = df.diff, aes(ymax = get(sim2_name), ymin = get(sim1_name), fill = "Shade Deficit"), alpha = 0.6) + 
+  geom_ribbon(data = df.diff, aes(ymax = get(sim2_name), ymin = get(sim1_name)), fill = "grey", alpha = 0.6) + 
   scale_color_manual(values = c("blue", "dark green", "black"),
                      labels = c(sim1_name, sim2_name, "Shade Difference")) +
-  scale_fill_manual(values = "grey") +
+  #scale_fill_manual(values = "grey") +
   theme(legend.position = "bottom",
         legend.title=element_blank(),
         panel.background = element_rect(fill = "white", colour = "black"),
@@ -135,7 +137,8 @@ p.es3 <- df.plot %>%
   xlab("Model Kilometer") +
   ylab("Effective Shade") + 
   ylim(0, NA) +
-  facet_wrap(~facet, nrow = 2, ncol = 1, scales = "free_y")
+  facet_wrap(~facet, nrow = 2, ncol = 1, scales = "free_y") +
+  scale_x_reverse(limits = c(NA, 0))
 p.es3
 
 ggsave(file = file.path(out_dir, paste0(name, "_Effective_Shade_", out_name, "_", gsub("/","_", plot.date),".png")),
