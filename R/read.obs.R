@@ -31,7 +31,7 @@
 #'        format 'YYYY/MM/DD'.
 #'  \item Activity.Start.Time: Time of sample. Formatted as an excel date in the
 #'        format 'HH24:MM'.
-#'  \item Activity.Start.End.Time Zone: Character timezone (e.g. PDT or PST).
+#'  \item Activity.Start.End.Time.Zone: Character timezone (e.g. PDT or PST).
 #'  \item Characteristic.Name: Characteristic name used in AWQMS.
 #'        (e.g. 'Temperature, water', 'Flow')
 #'  \item Result.Value: Measured characteristic result value.
@@ -77,11 +77,11 @@ read.obs <- function(obs_dir, file_name) {
   # Read observation data
   mlocs <- readxl::read_excel(path = file.path(obs_dir, file_name),
                              sheet = "Monitoring_Locations",
-                             na = c("","N/A", " "))
+                             na = c("","N/A", " ", "NA"))
 
   results <- readxl::read_excel(path = file.path(obs_dir, file_name),
                                 sheet = "Results",
-                                na = c("","N/A", " "))
+                                na = c("","N/A", " ", "NA"))
 
 
  mloc_cols <- c("Monitoring.Location.ID", "Monitoring.Location.Name",
