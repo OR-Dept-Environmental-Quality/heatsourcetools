@@ -45,12 +45,17 @@ calc_7dadm <- function(df, datetime_col= "datetime", sim_col="sim",
   # Calc 7-day mean of the daily maximums
   df.7dadm <- df.max %>%
     dplyr::group_by(model_km, sim) %>%
-    dplyr::mutate(startdate7 = lag(datetime, 6, order_by = datetime),
+    dplyr::mutate(startdate7 = dplyr::lag(datetime, 6, order_by = datetime),
                   sdadm = dplyr::if_else(startdate7 == (datetime - lubridate::days(6)),
                                          zoo::rollmean(x = max, k = 7, fill = NA_real_, align = "right"),
-                                         NA_real_),
-                  sdadm = round(sdadm, 2)) %>%
+                                         NA_real_)) %>%
   as.data.frame()
+  
+  # This is faster than the above code but assumes there is no break in the dates. Warning.
+  # df.7dadm <- df.max %>%
+  #   dplyr::group_by(model_km, sim) %>%
+  #   dplyr::mutate(sdadm = zoo::rollmean(x = max, k = 7, fill = NA_real_, align = "right")) %>%
+  #   as.data.frame()
 
   df.long <- df.7dadm %>%
     tidyr::pivot_longer(cols = c("max", "sdadm"), names_to = "constituent", values_to = "value") %>%
