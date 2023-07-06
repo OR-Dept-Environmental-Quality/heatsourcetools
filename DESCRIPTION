@@ -8,7 +8,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "Ryan.Michie@deq.oregon.gov"))
 Description: R package to assist post processing of heat source models.
-License: `use_mit_license()`
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
