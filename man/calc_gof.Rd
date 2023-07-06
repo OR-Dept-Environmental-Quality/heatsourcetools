@@ -35,7 +35,7 @@ water').
 in \code{preds} and \code{obs} to establish a match. If the difference
 exceeds the tolerance the prediction is not included in the goodness
 of fit stats. The tolerance cannot be greater than 1440 minutes
-(1 day). The default tolerance is 30 minutes.}
+(1 day). The default tolerance is 60 minutes.}
 }
 \value{
 data frame
@@ -56,5 +56,5 @@ at each monitoring location are also included (n).
 \seealso{
 \code{\link[hydroGOF]{me}}, \code{\link[hydroGOF]{mae}},
 \code{\link[hydroGOF]{rmse}}, \code{\link[hydroGOF]{NSE}},
-\code{\link[base]{cor}}
+\code{\link{cor}}
 }
