@@ -3,3 +3,7 @@
 script_snapshot
 R_dev
 ^scripts$
+^LICENSE\.md$
+[.]xlsx$
+paths.R
+tests.R
