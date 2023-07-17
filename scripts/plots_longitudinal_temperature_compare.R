@@ -90,7 +90,6 @@ df.summary <- df %>%
 
 # Point of Maximum Impact
 df.pomi <- df %>%
-  dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
   dplyr::slice(which.max(value)) %>%
   dplyr::mutate(location = "POMI") %>%
@@ -100,7 +99,6 @@ df.pomi <- df %>%
 # Impact at most downstream node (outlet)
 df.pomi <- df %>%
   dplyr::filter(model_km == min(model_km)) %>%
-  dplyr::mutate(value = round(value, 2)) %>%
   dplyr::group_by(sim, constituent) %>%
   dplyr::slice(which.max(value)) %>%
   dplyr::mutate(location = "outlet") %>%
