@@ -1,7 +1,7 @@
 Package: heatsourcetools
 Type: Package
 Title: Heat Source Model Post Processing Tools
-Version: 0.5
+Version: 0.6
 Authors@R: 
     c(person(given = "Ryan",
            family = "Michie",
@@ -15,9 +15,9 @@ RoxygenNote: 7.2.1
 Imports:
     cellranger (>= 1.1.0),
     dplyr (>= 0.8.3),
-    hydroGOF (>= 0.4-0),
     lubridate (>= 1.7),
     magrittr (>= 2.0.1),
+    metrica (>= 2.0.0),
     readxl (>= 1.2.0),
     sp (>= 1.4-5),
     stringr (>= 1.4.0),

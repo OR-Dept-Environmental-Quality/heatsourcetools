@@ -6,10 +6,11 @@
 #' Monitoring.Location.ID, constituent, and nearest datetime within a set number
 #' of minutes defined using \code{tolerance}.If the difference in datetimes
 #' exceeds the \code{tolerance} a match will not be made. Goodness of fit
-#' statistics are calculated using the \code{\link[hydroGOF]{hydroGOF}} package.
-#' Statistics calculated are Mean Error (ME), Mean Absolute Error (MAE), Root
+#' statistics are calculated using the \code{\link[metrica]{metrica}} package.
+#' Statistics calculated are Mean Bias Error (MBE), Mean Absolute Error (MAE), Root
 #' Mean Square Error (RMSE), Nash-Sutcliffe Efficiency (NSE), and  Coefficient
-#' of Determination (R2). The count of \code{preds} and \code{obs} comparisons
+#' of Determination (R2). Goodness of fit results are rounded to the hundredths. 
+#' The count of \code{preds} and \code{obs} comparisons
 #' at each monitoring location are also included (n).
 #'
 #' @param preds Data frame of model prediction results. The \code{preds} data
@@ -39,8 +40,8 @@
 #'        exceeds the tolerance the prediction is not included in the goodness
 #'        of fit stats. The tolerance cannot be greater than 1440 minutes
 #'        (1 day). The default tolerance is 60 minutes.
-#' @seealso \code{\link[hydroGOF]{me}}, \code{\link[hydroGOF]{mae}},
-#'          \code{\link[hydroGOF]{rmse}}, \code{\link[hydroGOF]{NSE}},
+#' @seealso \code{\link[metrica]{MBE}}, \code{\link[metrica]{MAE}},
+#'          \code{\link[metrica]{RMSE}}, \code{\link[metrica]{NSE}},
 #'          \code{\link{cor}}
 #' @export
 #' @return data frame
@@ -51,7 +52,7 @@ calc_gof <- function(preds, obs, tolerance = 60) {
   # Testing
   # preds <- preds.temp
   # obs <- obs.temp
-
+  
   if (tolerance > 1440) {
     warning("tolerance exceeds 1440 minutes. Reset to 1440.")
     tolerance <- 1440
@@ -101,18 +102,18 @@ calc_gof <- function(preds, obs, tolerance = 60) {
 
   df.gof <- df %>%
     dplyr::group_by(Monitoring.Location.ID, constituent) %>%
-    dplyr::summarise(ME = round(hydroGOF::me(sim = Predictions,
-                                             obs = Observations,
-                                             na.rm = TRUE), digits = 2),
-                     MAE = round(hydroGOF::mae(sim = Predictions,
-                                               obs = Observations,
-                                               na.rm = TRUE), digits = 2),
-                     RMSE = round(hydroGOF::rmse(sim = Predictions,
-                                                 obs = Observations,
-                                                 na.rm = TRUE), digits = 2),
-                     NSE = round(hydroGOF::NSE(sim = Predictions,
-                                               obs = Observations,
-                                               na.rm = TRUE), digits = 2),
+    dplyr::summarise(round(metrica::MBE(pred = Predictions,
+                                        obs = Observations,
+                                        na.rm = TRUE, tidy = TRUE), digits = 2),
+                     round(metrica::MAE(pred = Predictions,
+                                        obs = Observations,
+                                        na.rm = TRUE, tidy = TRUE), digits = 2),
+                     round(metrica::RMSE(pred = Predictions,
+                                         obs = Observations,
+                                         na.rm = TRUE, tidy = TRUE), digits = 2),
+                     round(metrica::NSE(pred = Predictions,
+                                        obs = Observations,
+                                        na.rm = TRUE, tidy = TRUE), digits = 2),
                      R2 = round((cor(x = Predictions, y = Observations,
                                      method = "pearson")^2), digits = 2),
                      n = dplyr::n()) %>%
