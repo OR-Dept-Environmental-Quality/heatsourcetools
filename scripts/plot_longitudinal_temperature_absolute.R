@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------
-# Import heat source hourly temperature outputs from multiple simulations,
-# calculate 7DADM, and plot temperatures longitudinally
+# Import heat source 8 hourly temperature outputs from multiple simulations,
+# calculate 7DADM, and plot the maximum and median 7DADM temperatures longitudinally
 #---------------------------------------------------------------------------------------
 
 library(heatsourcetools)
@@ -18,142 +18,194 @@ w <- 6.75
 #h <- 5
 #w <- 10
 
-# File name for output plot
-out_name <- "Thomas_All_Scenarios"
+out_name <- "Smith_Creek_Scenarios"
+out_dir <- "//path/to/model/directory/Results/All_Scenarios/"
 
-# The directory to save the plot output
-out_dir <- "//path/to/plot/directory"
-
-# Name that goes on plot and order of legend
+# Name that goes on plot
 sim1_name <- "Current Condition"
 sim2_name <- "Restored Vegetation"
-sim3_name <- "Natural Flow"
-sim4_name <- "Restored Vegetation - Tribs"
-sim5_name <- "Background"
-sim6_name <- "Biologically Based Criteria"
+sim3_name <- "No Point Sources"
+sim4_name <- "Wasteload Allocations"
+sim5_name <- "Tributary Temperatures"
+sim6_name <- "Natural Flow"
+sim7_name <- "Background"
+sim8_name <- "Biologically Based Criteria"
 
-sim_colors <- c("Current Condition" = "blue", 
-                "Restored Vegetation" = "dark green", 
-                "Natural Flow" = "red",
-                "Restored Vegetation - Tribs" = "orange",
-                "Background" = "violet",
-                "Biologically Based Criteria" = "black")
+sim_hs_ver <- 8
+sim_sheet <- NA_character_
+sim_filename <- "Temp_H2O"
 
-sim_linetype <- c("Current Condition" = "solid", 
-                  "Restored Vegetation" = "solid",
-                  "Natural Flow" = "solid",
-                  "Restored Vegetation - Tribs" = "solid",
-                  "Background" = "solid",
-                  "Biologically Based Criteria" = "dashed")
-
-
-sim1_dir <- "//path/to/sim1/model/directory"
-sim2_dir <- "//path/to/sim2/model/directory"
-sim3_dir <- "//path/to/sim3/model/directory"
-sim4_dir <- "//path/to/sim4/model/directory"
-sim5_dir <- "//path/to/sim5/model/directory"
-
-sim1_file <- "Thomas.HS6.CCC.FINAL.xls"
-sim2_file <- "Thomas.HS6.VEG.FINAL.xls"
-sim3_file <- "Thomas.HS6.VEG.FLOW.FINAL.xls"
-sim4_file <- "Thomas.HS6.VEG.TRIBS.FINAL.xls"
-sim5_file <- "Thomas.HS6.BACKGROUND.FINAL.xls"
+sim1_dir <- "//path/to/model/directory/1_CCC"
+sim2_dir <- "//path/to/model/directory/3_VEG"
+sim3_dir <- "//path/to/model/directory/5_NoPointSources"
+sim4_dir <- "//path/to/model/directory/6_WLA"
+sim5_dir <- "//path/to/model/directory/8_TRIBS"
+sim6_dir <- "//path/to/model/directory/7_FLOW_CU00_NaturalFlow"
+sim7_dir <- "//path/to/model/directory/9_BACKGROUND"
 
 
 # Either "7DADM Temperature" or "Daily Maximum Temperature"
-plot_stat <- "Daily Maximum Temperature"
+plot_stat <- "7DADM Temperature"
 
-plot_sims <- c(sim1_name, sim2_name, sim3_name, sim4_name, sim5_name, sim6_name)
+# The sims you want to include on the plot
+plot_sims <- c(sim1_name, sim2_name, sim3_name, sim4_name, sim5_name, sim6_name, sim7_name, sim8_name)
 
-#--  Read temps and calc 7dadm ------------------------------------
+legend_order <- c(sim1_name, sim2_name, sim3_name, sim4_name, sim5_name, sim6_name, sim7_name, sim8_name)
 
-df.sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim1_file,
-                           hs_ver = 6, sheet_name = "Long Temp Output",
+# the order of these values is the same as the plot_sim order
+sim_colors <- setNames(c("blue", 
+                         "dark green", 
+                         "red",
+                         "orange",
+                         "violet",
+                         "green",
+                         "yellow",
+                         "black"), 
+                       plot_sims)
+
+sim_linetype = setNames(c("solid", 
+                          "solid",
+                          "solid",
+                          "solid",
+                          "solid",
+                          "solid",
+                          "solid",
+                          "dashed"), 
+                        plot_sims)
+
+
+sim_linesize <- setNames(c(1, 1, 1, 1, 1, 1, 1, 1), plot_sims)
+
+#-  Import models --------------------------------------------------------------
+
+df.sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
                            sim_name = sim1_name)
 
-df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
-                           hs_ver = 6, sheet_name = "Long Temp Output",
-                           sim_name = sim2_name)
+df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
 
-df.sim3 <- read.hs.outputs(output_dir = sim3_dir, file_name = sim3_file,
-                           hs_ver = 6, sheet_name = "Long Temp Output",
-                           sim_name = sim3_name)
+df.sim3 <- read.hs.outputs(output_dir = sim3_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
 
-df.sim4 <- read.hs.outputs(output_dir = sim4_dir, file_name = sim4_file,
-                           hs_ver = 6, sheet_name = "Long Temp Output",
-                           sim_name = sim4_name)
+df.sim4 <- read.hs.outputs(output_dir = sim4_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
 
-df.sim5 <- read.hs.outputs(output_dir = sim5_dir, file_name = sim5_file,
-                           hs_ver = 6, sheet_name = "Long Temp Output",
-                           sim_name = sim5_name)
+df.sim5 <- read.hs.outputs(output_dir = sim5_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
+
+df.sim6 <- read.hs.outputs(output_dir = sim6_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
+
+df.sim7 <- read.hs.outputs(output_dir = sim7_dir, file_name = sim_filename,
+                           hs_ver = sim_hs_ver, sheet_name = sim_sheet, 
+                           sim_name = sim1_name)
+
+
+#--  Read temps and calc 7dadm, summary stats ------------------------------------
 
 data1 <- calc_7dadm(df.sim1)
 data2 <- calc_7dadm(df.sim2)
 data3 <- calc_7dadm(df.sim3)
 data4 <- calc_7dadm(df.sim4)
 data5 <- calc_7dadm(df.sim5)
+data6 <- calc_7dadm(df.sim6)
+data7 <- calc_7dadm(df.sim7)
 
 # This builds a dataframe of when and where the BBNC apply. 
-# Need to be modified as necessary for the specific model location and temperature WQS.
-data6 <- data1 %>%
-  mutate(value = case_when(model_km < 30.3271 ~ 18,
-                           TRUE ~ 16),
-         sim = sim6_name)
+# Needs to be modified as necessary for the specific model location and temperature WQS.
+data8 <- data3 %>%
+  mutate(value = 18,
+         sim = sim8_name)
 
-df <- rbind(data1, data2, data3, data4, data5, data6) %>%
+df <- rbind(data1, data2, data3, data4, data5, data6, data7, data8) %>%
   filter(constituent == plot_stat) %>%
-  pivot_wider(names_from = "sim", values_from = "value") %>%
-  drop_na(!!sim1_name, !!sim2_name, !!sim3_name, !!sim4_name, !!sim5_name, BBNC) %>%
-  rename(sim1 = !!sim1_name, sim2 = !!sim2_name, sim3 = !!sim3_name, 
-         sim4 = !!sim4_name, sim5 = !!sim5_name) %>%
-  mutate(Change = if_else(sim2 >= BBNC, sim2 - sim1, NA_real_)) %>%
-  pivot_longer(cols = all_of(c("sim1", "sim2", "sim3", "sim4", "sim5", "BBNC", "Change")), 
-               names_to = "sim", values_to = "value") %>%
-  mutate(sim = case_when(sim == "sim1" ~ sim1_name,
-                         sim == "sim2" ~ sim2_name,
-                         sim == "sim3" ~ sim3_name,
-                         sim == "sim4" ~ sim4_name,
-                         sim == "sim5" ~ sim5_name,
-                         sim == "BBNC" ~ sim6_name,
-                         TRUE ~ sim))
+  drop_na(value)
 
-df <- rbind(data1, data2, data3, data4, data5, data6) %>%
-  filter(constituent == plot_stat) %>%
-  pivot_wider(names_from = "sim", values_from = "value") %>%
-  drop_na(!!sim1_name, !!sim2_name, !!sim3_name, !!sim4_name, !!sim5_name, !!sim6_name) %>%
-  pivot_longer(cols = all_of(plot_sims), 
-               names_to = "sim", values_to = "value")
+# Calc max, median, and min
+df.summary <- df %>%
+  dplyr::group_by(constituent, model_km, sim) %>%
+  dplyr::summarize(median = quantile(value, probs = c(.50), na.rm = TRUE),
+                   min = min(value, na.rm = TRUE),
+                   max = max(value, na.rm = TRUE),
+                   range = max - min)
 
-# set y axis plot limits
-ymin <- 0
-ymax <- heatsourcetools::round_any(max(df$value, na.rm = TRUE), 5, ceiling)
 
-p.T <- df %>%
+# Location of Maximum Temperature
+df.pomi <- df %>%
+  dplyr::group_by(sim, constituent) %>%
+  dplyr::slice(which.max(abs(value))) %>%
+  dplyr::mutate(location = "POMI") %>%
+  as.data.frame()
+
+# Impact at most downstream node (outlet)
+df.pomi <- df %>%
+  dplyr::filter(model_km == min(model_km)) %>%
+  dplyr::group_by(sim, constituent) %>%
+  dplyr::slice(which.max(abs(value))) %>%
+  dplyr::mutate(location = "outlet") %>%
+  as.data.frame() %>%
+  rbind(df.pomi)
+
+df.pomi
+
+write_xlsx(x = df.pomi,
+           path = file.path(out_dir, paste0(out_name,"_Summary.xlsx")))
+
+#-- Longitudinal plot of maximum temperatures
+
+p.max <- df.summary %>%
   filter(sim %in% plot_sims) %>%
-  mutate(sim = factor(sim, levels = plot_sims)) %>%
-  ggplot(aes(x = model_km, y = value, color = sim, linetype = sim)) +
+  mutate(sim = factor(sim, levels = legend_order)) %>%
+  ggplot(aes(x = model_km, y = max, color = sim, linetype = sim, size = sim)) +
   geom_line() +
   scale_color_manual(values = sim_colors) +
   scale_linetype_manual(values = sim_linetype) +
-  theme(legend.position = "bottom",
-        legend.title = element_blank(),
-        legend.key = element_blank(),
-        panel.background = element_rect(fill = "white", colour = "black"),
-        strip.background = element_rect(fill = "white", colour = "black"),
-        panel.grid.major = element_line(colour = "lightgrey"),
-        plot.title = element_text(size = 12, hjust = 0.5),
-        text = element_text(size = 10, family = "sans")) +
-  scale_x_reverse() +
-  scale_y_continuous(limits = c(ymin, ymax), breaks = scales::pretty_breaks(n = 5)) +
-  xlab("Model Stream Kilometer") +
-  ylab("Daily Maximum Temperature (deg-C)")
+  scale_size_manual(values = sim_linesize) +
+  theme(legend.position = "bottom") +
+  theme(legend.title = element_blank()) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_x_reverse(name = "Model Stream Kilometer") +
+  scale_y_continuous(name = "Maximum 7DADM Temperature (deg-C)",
+                     breaks = scales::pretty_breaks(n = 5),
+                     limits = c(0,NA))
 
-p.T
+p.max
 
-ggsave(file = paste0(file.path(out_dir,out_name),"_Absolute_Temps.png"),
-       plot = p.dT,
+
+p.median <- df.summary %>%
+  filter(sim %in% plot_sims) %>%
+  mutate(sim = factor(sim, levels = legend_order)) %>%
+  ggplot(aes(x = model_km, y = median, color = sim, linetype = sim, size = sim)) +
+  geom_line() +
+  scale_color_manual(values = sim_colors) +
+  scale_linetype_manual(values = sim_linetype) +
+  scale_size_manual(values = sim_linesize) +
+  theme(legend.position = "bottom") +
+  theme(legend.title = element_blank()) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_x_reverse(name = "Model Stream Kilometer") +
+  scale_y_continuous(name = "Median 7DADM Temperature (deg-C)",
+                     breaks = scales::pretty_breaks(n = 5),
+                     limits = c(0,NA))
+
+p.median
+
+ggsave(file = paste0(file.path(out_dir, out_name),"_Max_7DADM_Temps.png"),
+       plot = p.max,
        height = h,
        width = w,
        units = "in")
 
-
+ggsave(file = paste0(file.path(out_dir, out_name),"_Median_7DADM_Temps.png"),
+       plot = p.medan,
+       height = h,
+       width = w,
+       units = "in")
