@@ -1,5 +1,8 @@
 package.R
 tests.R
+paths*
+/script_snapshot/
+
 
 # History files
 .Rhistory
