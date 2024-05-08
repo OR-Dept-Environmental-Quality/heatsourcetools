@@ -30,10 +30,14 @@ out_dir <- "//path/to/plot/directory"
 sim1_name <- "Restored Vegetation"
 sim1_dir <- "//path/to/sim1/model/directory"
 sim1_file <- "HS7.Jenny.Crk.VEG.xlsm"
+sim1_hs_ver <- 7
+sim1_sheet <- "Output - Temperature"
 
 sim2_name <- "Current Condition"
 sim2_dir <- "//path/to/sim2/model/directory"
 sim2_file <- "HS7.Jenny.Crk.CCC.xlsm"
+sim2_hs_ver <- 7
+sim2_sheet <- "Output - Temperature"
 
 # Used for Oregon temperature WQS/HUA attainment assessment. 
 # Need to filter out days that attain criteria (sim2 <= BBNC)
@@ -46,11 +50,11 @@ plot.sims <- c(sim1_name, sim2_name)
 
 # These functions might need to be modified depending on the model version.
 df.sim1 <- read.hs.outputs(output_dir = sim1_dir, file_name = sim1_file,
-                            hs_ver = 7, sheet_name = "Output - Temperature",
+                            hs_ver = sim1_hs_ver, sheet_name = sim1_sheet,
                             sim_name = sim1_name)
 
 df.sim2 <- read.hs.outputs(output_dir = sim2_dir, file_name = sim2_file,
-                           hs_ver = 7, sheet_name = "Output - Temperature",
+                           hs_ver = sim2_hs_ver, sheet_name = sim2_sheet,
                            sim_name = sim2_name)
 
 
