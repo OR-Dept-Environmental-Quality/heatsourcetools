@@ -47,14 +47,15 @@ and variable timeseries. \code{preds} and \code{obs} are matched based on the
 Monitoring.Location.ID, constituent, and nearest datetime within a set number
 of minutes defined using \code{tolerance}.If the difference in datetimes
 exceeds the \code{tolerance} a match will not be made. Goodness of fit
-statistics are calculated using the \code{\link[hydroGOF]{hydroGOF}} package.
-Statistics calculated are Mean Error (ME), Mean Absolute Error (MAE), Root
+statistics are calculated using the \code{\link[metrica]{metrica}} package.
+Statistics calculated are Mean Bias Error (MBE), Mean Absolute Error (MAE), Root
 Mean Square Error (RMSE), Nash-Sutcliffe Efficiency (NSE), and  Coefficient
-of Determination (R2). The count of \code{preds} and \code{obs} comparisons
+of Determination (R2). Goodness of fit results are rounded to the hundredths.
+The count of \code{preds} and \code{obs} comparisons
 at each monitoring location are also included (n).
 }
 \seealso{
-\code{\link[hydroGOF]{me}}, \code{\link[hydroGOF]{mae}},
-\code{\link[hydroGOF]{rmse}}, \code{\link[hydroGOF]{NSE}},
+\code{\link[metrica]{MBE}}, \code{\link[metrica]{MAE}},
+\code{\link[metrica]{RMSE}}, \code{\link[metrica]{NSE}},
 \code{\link{cor}}
 }
