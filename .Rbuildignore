@@ -5,5 +5,5 @@ R_dev
 ^scripts$
 ^LICENSE\.md$
 [.]xlsx$
-paths.R
+^paths$
 tests.R
