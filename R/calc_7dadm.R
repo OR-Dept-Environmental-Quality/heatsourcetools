@@ -36,7 +36,7 @@ calc_7dadm <- function(df, datetime_col= "datetime", sim_col="sim",
     dplyr::mutate(date = format(datetime, "%m/%d/%Y")) %>%
     dplyr::group_by(date, model_km, sim) %>%
     dplyr::summarise(max = max(value, na.rm = TRUE)) %>%
-    dplyr::arrange(sim, -model_km, date) %>%
+    dplyr::arrange(sim, dplyr::desc(model_km), date) %>%
     dplyr::mutate(datetime = lubridate::mdy_hm(paste0(date," 00:00")),
                   max = dplyr::na_if(max, Inf),
                   max = dplyr::na_if(max, -Inf)) %>%
