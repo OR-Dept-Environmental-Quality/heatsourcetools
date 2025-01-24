@@ -4,7 +4,12 @@
 \alias{read.hs7.shade}
 \title{Read Heat Source 7 effective shade outputs.}
 \usage{
-read.hs7.shade(output_dir, file_name, sheet_name = "Chart-Shade")
+read.hs7.shade(
+  output_dir,
+  file_name,
+  sheet_name = "Chart-Shade",
+  date_correction = TRUE
+)
 }
 \arguments{
 \item{output_dir}{The path to the directory where the Heat Source .xlsm is located.}
@@ -13,6 +18,10 @@ read.hs7.shade(output_dir, file_name, sheet_name = "Chart-Shade")
 The ".xlsm" extension should be included in the file name.}
 
 \item{sheet_name}{The name of the output worksheet to read. Default is "Chart-Shade".}
+
+\item{date_correction}{TRUE or FALSE. If TRUE, subtracts one day to the date to
+correct a bug in Heat Source 7 where the date in the "Chart-Shade" worksheet
+was one one day off. Default is TRUE.}
 }
 \value{
 data frame

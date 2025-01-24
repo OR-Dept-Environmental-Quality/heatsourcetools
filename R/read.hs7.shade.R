@@ -15,13 +15,17 @@
 #' @param file_name The file name of the .xlsm heat source model.
 #' The ".xlsm" extension should be included in the file name.
 #' @param sheet_name The name of the output worksheet to read. Default is "Chart-Shade".
+#' @param date_correction TRUE or FALSE. If TRUE, subtracts one day to the date to 
+#' correct a bug in Heat Source 7 where the date in the "Chart-Shade" worksheet 
+#' was one one day off. Default is TRUE.
 #'
 #' @keywords Heat Source version 7
 #' @export
 #' @return data frame
 #'
 
-read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
+read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade",
+                           date_correction = TRUE) {
 
   excel.data <- readxl::read_excel(path = file.path(output_dir, file_name),
                                    sheet = sheet_name, skip = 12,
@@ -31,6 +35,10 @@ read.hs7.shade <- function(output_dir, file_name, sheet_name = "Chart-Shade") {
 
   
   excel.data$datetime <- lubridate::round_date(excel.data$datetime, unit = "day")
+  
+  if (date_correction) {
+    excel.data$datetime <- excel.data$datetime - lubridate::days(1)
+  }
   
   excel.data$datetime <- as.numeric(as.Date(excel.data$datetime) -
                                       as.Date(0, origin = "1899-12-30",
