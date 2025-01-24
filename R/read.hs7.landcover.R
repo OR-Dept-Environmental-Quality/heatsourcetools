@@ -19,9 +19,9 @@ read.hs7.landcover <- function(output_dir, file_name,
                                sheet_name = "TTools Data") {
 
   lc.data <- readxl::read_excel(path = file.path(output_dir, file_name), 
-                                sheet=sheet_name, 
+                                sheet = sheet_name, 
                                 na = c("","N/A", " "),
-                                range=cell_cols("C:FE"),
+                                range = cell_cols("C:FE"),
                                 col_names = FALSE)
   
   # This keeps everything and only removes unused rows and cols
@@ -29,18 +29,19 @@ read.hs7.landcover <- function(output_dir, file_name,
   
   lc.data <- lc.data[c(16:nrow(lc.data)), c(1:40,144:145,147:148)]
   
-  colnames(lc.data) <- c("stream_node", "long_distance", "model_km", "lat", 
-                         "long", "elevation", "width", "aspect", 
-                         "topo_w", "topo_s", "topo_e", "LC_T0_S0", 
+  colnames(lc.data) <- c("NODE_ID", "LONG_DISTANCE", "model_km", "LONGITUDE", "LATITUDE", 
+                         "ELEVATION", "WIDTH", "ASPECT", 
+                         "TOPO_W", "TOPO_S", "TOPO_E", "LC_T0_S0", 
                          paste0("LC_T", rep(1:7, each = 4), "_S", 1:4),
-                         "height_l", "height_r", "density_l", "density_r")
+                         "HEIGHT_L", "HEIGHT_R", "DENSITY_L", "DENSITY_R")
   
   # only keep relevant rows for plotting, removes LC codes, elevations, etc
   #lc.data <- lc.data[c(16:nrow(lc.data)),c(1:11,144:145,147:148)]
   
-  #colnames(lc.data) <- c("stream_node","long_distance", "model_km", "lat", "long", 
-  #                       "elevation", "width", "aspect", "topo_w", "topo_s", "topo_e",
-  #                       "height_l", "height_r", "density_l", "density_r")
+  #colnames(lc.data) <- c("NODE_ID", "LONG_DISTANCE", "model_km", "LONGITUDE", "LATITUDE", 
+  #                       "ELEVATION", "WIDTH", "ASPECT", 
+  #                       "TOPO_W", "TOPO_S", "TOPO_E", 
+  #                       "HEIGHT_L", "HEIGHT_R", "DENSITY_L", "DENSITY_R")
 
   return(lc.data)
   
