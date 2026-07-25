@@ -2,6 +2,10 @@
 
 export("%>%")
 export(bottom_width)
+export(calc.hs7.porosity)
+export(calc.hs7.sed.conductivity)
+export(calc.hs7.sed.diffusivity)
+export(calc.hs7.sed.thickness)
 export(calc_7dadm)
 export(calc_gof)
 export(format_outputs)

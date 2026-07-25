@@ -4,7 +4,7 @@
 \name{heatsourcetools-package}
 \alias{heatsourcetools}
 \alias{heatsourcetools-package}
-\title{heatsourcetools: Heat Source Model Post Processing Tools}
+\title{heatsourcetools: Heat Source Model Pre and Post Processing Tools}
 \description{
 R package to assist post processing of heat source models.
 }
